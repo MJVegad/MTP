@@ -18,7 +18,7 @@ p - protocol / ethprotocol<br/>
 
 #### Explanation: current IP/MAC/TCP filters' status:
 Bit - j = 0, filter corrosponding to that bit is OFF<br/>
-		= 1, filter corrosponding to that bit is ON<br/>
+&nbsp	= 1, filter corrosponding to that bit is ON<br/>
 <br/>
 For IP filters' status,<br/>
 bit 0 - srcIP(LSB), bit 1 - dstIP, bit 2 - tos, bit 3 - protocol(MSB)<br/>
@@ -34,10 +34,10 @@ value of I should be: [0,3]<br/>
 
 
 #### Explanation: command formats:<br/>
-R <MACaddress> <IPaddress> <br/>
-A <MACaddress> {[I/M/T] value} {s value} {d} {t value} {p value}<br/>
-D <MACaddress> {[I/M/T] value} {s} {d} {t} {p}<br/>
-X <MACaddress><br/>
+R {MACaddress} {IPaddress} <br/>
+A {MACaddress} {[I/M/T] value} {s value} {d} {t value} {p value}<br/>
+D {MACaddress} {[I/M/T] value} {s} {d} {t} {p}<br/>
+X {MACaddress}<br/>
 
 
 #### Examples:
