@@ -3,7 +3,7 @@
 
 ## Interface for Middleboxes:
 #### Acronyms used:
-R - register a middlebox
+R - register a middlebox <br/>
 A - Add services for registered MB
 D - Delete services for registered MB
 X - Quit MB registration
