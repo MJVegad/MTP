@@ -2,9 +2,7 @@
 ----------------------------------
 
 ## Interface for Middleboxes:
------------------------------
 #### Acronyms used:
-...................
 R - register a middlebox
 A - Add services for registered MB
 D - Delete services for registered MB
@@ -19,7 +17,6 @@ p - protocol / ethprotocol
 
 
 #### Explanation: current IP/MAC/TCP filters' status:
-.....................................................
 Bit - j = 0, filter corrosponding to that bit is OFF
 		= 1, filter corrosponding to that bit is ON
 
@@ -37,7 +34,6 @@ value of I should be: [0,3]
 
 
 #### Explanation: command formats:
-..................................
 R <MACaddress> <IPaddress> 
 A <MACaddress> {[I/M/T] value} {s value} {d} {t value} {p value}
 D <MACaddress> {[I/M/T] value} {s} {d} {t} {p}
@@ -45,7 +41,6 @@ X <MACaddress>
 
 
 #### Examples:
-..............
 R 12:13:14:15:16:17 10.129.126.15 
 It registers a middlebox having MAC address specified in the command.
 
