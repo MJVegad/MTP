@@ -1,0 +1,62 @@
+Network card configuration
+===========================
+       description: Ethernet interface
+       product: Ethernet Connection I217-V
+       vendor: Intel Corporation
+       physical id: 19
+       bus info: pci@0000:00:19.0
+       logical name: em1
+       version: 04
+       serial: 00:22:4d:af:c8:f7
+       size: 100Mbit/s
+       capacity: 1Gbit/s
+       width: 32 bits
+       clock: 33MHz
+       capabilities: pm msi bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+       configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=3.2.6-k duplex=full firmware=0.12-4 latency=0 link=yes multicast=yes port=twisted pair speed=100Mbit/s
+       resources: irq:28 memory:f7c00000-f7c1ffff memory:f7c3d000-f7c3dfff ioport:f080(size=32)
+
+
+Which Intel Ethernet Adapters support VMDq? (source:http://www.intel.com/content/www/us/en/support/network-and-i-o/ethernet-products/000006517.html)
+===========================================
+Intel® Ethernet Converged Network Adapter X540 (-T1 and -T2)
+Intel® Ethernet Server Adapter X520 Series (-DA2, -SR1, -SR2, -LR1)
+Intel® Ethernet Server Adapter X520-T2	
+Intel® 10 Gigabit AF DA Dual Port Server Adapter
+Intel® 10 Gigabit AT2 Server Adapter
+Intel® 10 Gigabit AT Server Adapter
+Intel® 10 Gigabit CX4 Dual Port Server Adapter
+Intel® 10 Gigabit XF LR Server Adapter
+Intel® 10 Gigabit XF SR Server Adapter
+Intel® 10 Gigabit XF SR Dual Port Server Adapter	
+Intel® Ethernet Server Adapter I350
+Intel® Ethernet Server Adapter I340
+Intel® Gigabit ET2 Quad Port Server Adapter
+Intel® Gigabit ET Quad Port Server Adapter
+Intel® Gigabit ET Dual Port Server Adapter
+Intel® Gigabit EF Dual Port Server Adapter	
+
+
+struct sk_buff has fields to point to the specific network layer headers:
+==========================================================================
+transport_header (previously called h) – for layer 4, the transport layer (can include tcp header or udp header or icmp header, and more)
+network_header – (previously called nh) for layer 3, the network layer (can include ip header or ipv6 header or arp header).
+mac_header – (previously called mac) for layer 2, the link layer.
+skb_network_header(skb), skb_transport_header(skb) and skb_mac_header(skb) return pointer to the header.
+
+
+What happens when NIC receives PDU(Protocol Data Unit)?
+========================================================
+When NIC gets PDU, NIC copies PDU into kernel buffers using DMA(Direct Memory Access).  NIC notifies kernel the arrival of PDU by raising a hard interrupt. Device driver (part of the kernel) handles the Hard interrupt. The hard interrupt handlers perform minimal work and schedule the rest to be handled asynchronously by a softirq. Hard interrupt handlers can not be preempted.  Softirqs are processed as regular kernel code by special kernel threads.  Kernel will drop packets if it cannot pick them from the NIC quickly enough.
+
+For the Networking interrupt class, it is essential that the interrupt goes to one and one core only. The implementation of the Linux TCP/IP stack will then use this property to get some major efficiencies in its operation. In addition, if an interrupt source of another class is very high rate, irqbalance will also assign this to a specific core in order to maximize the efficiency of the level 1 cache of this core. This assigning to the cores uses the same algorithm as the assignment to cache-domains.
+
+On this machine,
+IRQ for em1 => 28
+nework interrupts handled by => core3 (It might change with every boot though)
+
+
+To remove a bridge:
+===================
+# ip link set kvmbr0 down
+# brctl delbr kvmbr0
