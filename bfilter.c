@@ -76,6 +76,7 @@ static int do_bfilter(struct sk_buff *skb)
 
                     printk(KERN_ALERT "ipfilters:%s\n", filters);
 					if (filters[3]=='1') {
+                        printk(KERN_ALERT "source ip address filter set for:%pM\n", &(entry->macaddr));
                         unsigned char t[16];
                         snprintf(t,16,"%pI4",&(iph->saddr));
 						if (strcmp(entry->srcip,t)!=0) 
@@ -93,6 +94,8 @@ static int do_bfilter(struct sk_buff *skb)
                             return 0;
                     }
 					if (filters[0]=='1') {
+                        printk(KERN_ALERT "IP protocol filter set for:%pM\n", &(entry->macaddr));
+                        printk(KERN_ALERT "ll val:%ld, iph->proto:%ld\n", entry->protocol, iph->protocol);
                         if (entry->protocol != iph->protocol)
                             return 0;
                     }
