@@ -5,6 +5,7 @@
 #include <linux/string.h>
 #include <linux/slab.h>
 #include <linux/kfifo.h>
+#include <linux/mutex.h>
 
 struct Mbinfo *mymb;
 EXPORT_SYMBOL(mymb);
@@ -15,6 +16,9 @@ struct kfifo commandQ;
 struct mbState mbState_list;
 EXPORT_SYMBOL(mbState_list);
 
+// mutex for middlebox state linked list access 
+//struct mutex mbllmutex;
+//EXPORT_SYMBOL(mbllmutex);
 
 asmlinkage long sys_catsh(const char* newdata)
 {
@@ -126,7 +130,11 @@ i
 		temp->macfilters=0;
 		temp->tcpfilters=0;
 
+		mutex_init(&temp->node);
+
+		//mutex_lock(&mbllmutex);
 		list_add(&temp->list,&mbState_list.list);
+		//mutex_unlock(&mbllmutex);
 		 printk(KERN_ALERT "New MB Registered.\nNode:%s,%s || ipfilters:%ld || macfilters:%ld || tcpfilters:%ld\n", temp->macaddr, temp->ipaddr, temp->ipfilters, temp->macfilters, temp->tcpfilters);
 
 	}
@@ -141,8 +149,12 @@ i
 		list_for_each(ptr,&mbState_list.list) {
                 	entry = list_entry(ptr, struct mbState, list);
                 	//printk(KERN_ALERT "command:%s\n", entry->macaddr);
+            int m1=0;    	
+            mutex_lock(&entry->node);    	
 			if(strcmp(entry->macaddr,temp)==0)
 			{
+				m1=1;
+				mutex_unlock(&entry->node);
 				char *temp1=strsep(&strp, delim);
 				
 				if(strcmp(temp1,"I")==0)
@@ -153,13 +165,20 @@ i
 					{	printk(KERN_ALERT "kstrtol failed.\n");
 						return 0;
 					}
+
+					mutex_lock(&entry->node);
 					entry->ipfilters = (entry->ipfilters) | val;
+					mutex_unlock(&entry->node);
 
 					while(strp!=NULL)
 					{
 						char *temp2=strsep(&strp, delim);
 						if(strcmp(temp2,"s")==0)
+						{	
+							mutex_lock(&entry->node);			
 							strcpy(entry->srcip,strsep(&strp, delim));
+							mutex_unlock(&entry->node);
+						}	
 						else if(strcmp(temp2,"t")==0)
 						{
 							long val1=0;
@@ -168,7 +187,9 @@ i
                 		    {       printk(KERN_ALERT "kstrtol failed.\n");
 		                            return 0;
                             }
+                            mutex_lock(&entry->node);
 							entry->tos = val1;
+							mutex_unlock(&entry->node);
 						}
 						else if(strcmp(temp2,"p")==0)
                         {
@@ -178,7 +199,9 @@ i
                             {       printk(KERN_ALERT "kstrtol failed.\n");
                                     return 0;
                             }
+                            mutex_lock(&entry->node);
                             entry->protocol = val1;
+                            mutex_unlock(&entry->node);
                         }
                         else if(strcmp(temp2,"d")==0)
                         {
@@ -198,13 +221,19 @@ i
                     {   printk(KERN_ALERT "kstrtol failed.\n");
                         return 0;
                     }
+                    mutex_lock(&entry->node);
                     entry->macfilters = (entry->macfilters) | val;
-					
+					mutex_unlock(&entry->node);
+
 					while(strp!=NULL)
                     {
                         char *temp2=strsep(&strp, delim);
                         if(strcmp(temp2,"s")==0)
+                        {
+                        	mutex_lock(&entry->node);
                             strcpy(entry->srcmac,strsep(&strp, delim));
+                            mutex_unlock(&entry->node);
+                        }   
                         else if(strcmp(temp2,"p")==0)
                         {
                             long val1=0;
@@ -213,7 +242,9 @@ i
                             {       printk(KERN_ALERT "kstrtol failed.\n");
                                     return 0;
                             }
+                            mutex_lock(&entry->node);
                             entry->ethprotocol = val1;
+                            mutex_unlock(&entry->node);
                         }
                         else if(strcmp(temp2,"d")==0)
                         {
@@ -232,8 +263,10 @@ i
                     {       printk(KERN_ALERT "kstrtol failed.\n");
                             return 0;
                     }
+                    mutex_lock(&entry->node);
                     entry->tcpfilters = (entry->tcpfilters) | val;
-					
+					mutex_unlock(&entry->node);
+
 					while(strp!=NULL)
                     {
                         char *temp2=strsep(&strp, delim);
@@ -245,7 +278,9 @@ i
                             {       printk(KERN_ALERT "kstrtol failed.\n");
                                     return 0;
                             }
+                            mutex_lock(&entry->node);
                             entry->srcport = val1;
+                            mutex_unlock(&entry->node);
                         }
                         else if(strcmp(temp2,"d")==0)
                         {
@@ -255,7 +290,9 @@ i
                             {   printk(KERN_ALERT "kstrtol failed.\n");
                                 return 0;
                             }
+                            mutex_lock(&entry->node);
                             entry->dstport = val1;
+                            mutex_unlock(&entry->node);
                         }
                         else
                             printk("Invalid command.\n");
@@ -270,6 +307,8 @@ i
 				 printk(KERN_ALERT "New filters added for the MB:%s,%s || ipfilters:%ld || macfilters:%ld || tcpfilters:%ld\n", entry->macaddr, entry->ipaddr, entry->ipfilters, entry->macfilters, entry->tcpfilters);	
 				break;
 			}
+			if(m1==0)
+				mutex_unlock(&entry->node);
         	}
         	if(flag==0)
         	printk(KERN_ALERT "Middlebox not registered for the service.\n");
@@ -287,8 +326,12 @@ i
 		list_for_each(ptr,&mbState_list.list) {
             entry = list_entry(ptr, struct mbState, list);
             //printk(KERN_ALERT "command:%s\n", entry->macaddr);
+            int m1=0;
+            mutex_lock(&entry->node);
 			if(strcmp(entry->macaddr,temp)==0)
 			{
+				m1=1;
+				mutex_unlock(&entry->node);
 				char *temp1=strsep(&strp, delim);
 				
 				if(strcmp(temp1,"I")==0)
@@ -299,20 +342,30 @@ i
 					{	printk(KERN_ALERT "kstrtol failed.\n");
 						return 0;
 					}
+					mutex_lock(&entry->node);
 					entry->ipfilters = (entry->ipfilters) & val;
+					mutex_unlock(&entry->node);
 
 					while(strp!=NULL)
 					{
 						char *temp2=strsep(&strp, delim);
 						if(strcmp(temp2,"s")==0)
+						{
+							mutex_lock(&entry->node);	
 							strcpy(entry->srcip,"");
+							mutex_unlock(&entry->node);
+						}	
 						else if(strcmp(temp2,"t")==0)
 						{
+							mutex_lock(&entry->node);
 							entry->tos = 0;
+							mutex_unlock(&entry->node);
 						}
 						else if(strcmp(temp2,"p")==0)
                         {
+                        	mutex_lock(&entry->node);
                             entry->protocol = 0;
+                            mutex_unlock(&entry->node);
                         }
                         else if(strcmp(temp2,"d")==0)
                         {
@@ -330,16 +383,24 @@ i
                     {   printk(KERN_ALERT "kstrtol failed.\n");
                         return 0;
                     }
+                    mutex_lock(&entry->node);
                     entry->macfilters = (entry->macfilters) & val;
-					
+					mutex_unlock(&entry->node);
+
 					while(strp!=NULL)
                     {
                         char *temp2=strsep(&strp, delim);
                         if(strcmp(temp2,"s")==0)
+                        {
+                        	mutex_lock(&entry->node);
                         	strcpy(entry->srcmac,"");
+                        	mutex_unlock(&entry->node);
+                        }	
                         else if(strcmp(temp2,"p")==0)
-                        {                                
+                        {   
+                        	mutex_lock(&entry->node);                             
                             entry->ethprotocol = 0;
+                            mutex_unlock(&entry->node);
                         }
                         else if(strcmp(temp2,"d")==0)
                         {
@@ -358,18 +419,24 @@ i
                     {       printk(KERN_ALERT "kstrtol failed.\n");
                             return 0;
                     }
+                    mutex_lock(&entry->node);
                     entry->tcpfilters = (entry->tcpfilters) & val;
+                    mutex_unlock(&entry->node);
 					
 					while(strp!=NULL)
                     {
                         char *temp2=strsep(&strp, delim);
                         if(strcmp(temp2,"s")==0)
                         {
+                        	mutex_lock(&entry->node);
                             entry->srcport = 0;
+                            mutex_unlock(&entry->node);
                         }
                         else if(strcmp(temp2,"d")==0)
                         {
+                        	mutex_lock(&entry->node);
                             entry->dstport = 0;
+                            mutex_unlock(&entry->node);
                         }
                         else
                             printk("Invalid command.\n");
@@ -384,6 +451,8 @@ i
 				printk(KERN_ALERT "Filters removed for the MB:%s,%s || ipfilters:%ld || macfilters:%ld || tcpfilters:%ld\n", entry->macaddr, entry->ipaddr, entry->ipfilters, entry->macfilters, entry->tcpfilters);	
 				break;
 			}
+			if (m1==0)
+				mutex_unlock(&entry->node);
         	}
 			if(flag==0)
         	printk(KERN_ALERT "Middlebox not registered for the service.\n");        	
@@ -398,13 +467,19 @@ i
 
 		list_for_each(ptr,&mbState_list.list) {
             entry = list_entry(ptr, struct mbState, list);
+            int m1=0;
+            mutex_lock(&entry->node);
             if(strcmp(entry->macaddr,temp)==0)
 			{
+				m1=1;
 				printk(KERN_ALERT "Registration canceled for the MB:%s\n", entry->macaddr);
             	list_del(&entry->list);
+            	mutex_unlock(&entry->node);
             	flag=1;
             	break;
-            }		
+            }
+            if (m1==0)
+            	mutex_unlock(&entry->node);		
         }  
 
         if(flag==0)
