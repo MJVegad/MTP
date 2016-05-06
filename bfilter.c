@@ -29,7 +29,7 @@ int intToBinary(int num);
 void tostring(char str[], int num);
 
 /* mutex for middlebox state linked list access */
-struct mutex mbllmutex;
+//extern struct mutex mbllmutex;
 
 extern int (*bridge_filter)(struct sk_buff *);
 
@@ -47,6 +47,8 @@ static int do_bfilter(struct sk_buff *skb)
 	struct ethhdr* mh = eth_hdr(skb);
 	struct tcphdr* tcph = tcp_hdr(skb);
 
+    
+
 	// traversing linkedlist of the registered middleboxes 
 	struct list_head *ptr;
 	struct mbState *entry;
@@ -57,20 +59,33 @@ static int do_bfilter(struct sk_buff *skb)
         //printk(KERN_ALERT "MAC Addr matched:%d\n", strcmp(entry->macaddr,mh->h_dest));
         unsigned char t1[18];
         snprintf(t1,18,"%pM",&(mh->h_dest));
+
+        // flags for non-recursive mutexes
+        int m1=0;
+        mutex_lock(&entry->node);
 		if (strcmp(entry->macaddr,t1)==0)
 		{
+            m1=1;
+            mutex_unlock(&entry->node);
             printk(KERN_ALERT "MAC Addr matched:%pM\n", &(entry->macaddr));
+            mutex_lock(&entry->node);
 			if(entry->ipfilters==0 && entry->macfilters==0 && entry->ipfilters==0)
 			{
+                mutex_unlock(&entry->node);
 				return 0;
 			}	
 			else
 			{
-				//  To match ip header fields 
+				//  To match ip header fields
+                int m3=0; 
 				if(entry->ipfilters!=0)
 				{
+                    m3=1;
+                    mutex_unlock(&entry->node);
                     printk(KERN_ALERT "ipfilter not zero for dest:%pM\n", &(entry->macaddr));
+                    mutex_lock(&entry->node);
 					int temp = intToBinary(entry->ipfilters);
+                    mutex_unlock(&entry->node);
 					char filters[5];
 					tostring(filters, temp);  
 
@@ -79,69 +94,148 @@ static int do_bfilter(struct sk_buff *skb)
                         printk(KERN_ALERT "source ip address filter set for:%pM\n", &(entry->macaddr));
                         unsigned char t[16];
                         snprintf(t,16,"%pI4",&(iph->saddr));
-						if (strcmp(entry->srcip,t)!=0) 
-							return 0;							
+                        int m2=0;
+                        mutex_lock(&entry->node);
+						if (strcmp(entry->srcip,t)!=0)
+                        { 
+                            m2=1;
+                            mutex_unlock(&entry->node);
+							return 0;
+                        }
+                        if (m2==0)
+                            mutex_unlock(&entry->node);    							
 					}
 					if (filters[2]=='1') {
                         printk(KERN_ALERT "dest ip address filter set for:%pM\n", &(entry->macaddr));
                         unsigned char t[16];
                         snprintf(t,16,"%pI4",&(iph->daddr));
+                        int m2=0;
+                        mutex_lock(&entry->node);
                         if (strcmp(entry->ipaddr,t)!=0)
+                        {
+                            m2=1;
+                            mutex_unlock(&entry->node);    
                             return 0;
+                        }    
+                        if(m2==0)
+                            mutex_unlock(&entry->node);
                     }
 					if (filters[1]=='1') {
+                        int m2=0;
+                        mutex_lock(&entry->node);
                         if (entry->tos != iph->tos)
+                        {
+                            m2=1;
+                            mutex_unlock(&entry->node);    
                             return 0;
+                        }    
+                        if (m2==0)
+                            mutex_unlock(&entry->node);
                     }
 					if (filters[0]=='1') {
                         printk(KERN_ALERT "IP protocol filter set for:%pM\n", &(entry->macaddr));
                         printk(KERN_ALERT "ll val:%ld, iph->proto:%ld\n", entry->protocol, iph->protocol);
+                        // flags for non-recursive mutexes
+                        int m2=0;   
+                        mutex_lock(&entry->node);
                         if (entry->protocol != iph->protocol)
+                        {
+                            m2=1;
+                            mutex_unlock(&entry->node);    
                             return 0;
+                        }    
+                        if (m2==0)
+                            mutex_unlock(&entry->node);
                     }
 				}
 
-				//  To match Mac header fields 
+				//  To match Mac header fields
+                int m4=0;
+                if(m3==1) 
+                    mutex_lock(&entry->node);                    
 				 if(entry->macfilters!=0)
                 {
+                     m4=1;  
                     int temp = intToBinary(entry->macfilters);
+                    mutex_unlock(&entry->node);
                     char filters[5];
                     tostring(filters, temp);
                     if (filters[3]=='1') {
                         unsigned char t1[18];
                         snprintf(t1,18,"%pM",&(mh->h_source));
+                        int m2=0;
+                        mutex_lock(&entry->node);
                         if (strcmp(entry->srcmac,t1)!=0)
+                        {
+                            m2=1;
+                            mutex_unlock(&entry->node);
                             return 0;
+                        }        
+                        if(m2==0)
+                            mutex_unlock(&entry->node);
                     }
                     if (filters[2]=='1') {
                         //if (strcmp(entry->macaddr,mh->h_dest)!=0)
                         //    return 0;
                     }
                     if (filters[1]=='1') {
+                        int m2=0;
+                        mutex_lock(&entry->node);
                         if (entry->ethprotocol != mh->h_proto)
+                        {
+                            m2=1;
+                            mutex_unlock(&entry->node);    
                             return 0;
+                        }    
+                        if(m2==0)
+                            mutex_unlock(&entry->node);
                     }    
                 }
 
-				//  To match Tcp/Udp header fields 
+				//  To match Tcp/Udp header fields
+                int m5=0;
+                if(m4==1) 
+                    mutex_lock(&entry->node);
 				 if(entry->tcpfilters!=0)
                 {
+                    m5=1;
                     int temp = intToBinary(entry->tcpfilters);
+                    mutex_unlock(&entry->node);
                     char filters[5];
                     tostring(filters, temp);
                     if (filters[3]=='1') {
+                        int m2=0;
+                        mutex_lock(&entry->node);
                         if (tcph->source != entry->srcport)
+                        { 
+                            m2=1;
+                            mutex_unlock(&entry->node);   
                             return 0;
+                        }   
+                        if(m2==0)
+                            mutex_unlock(&entry->node);
                     }
                     if (filters[2]=='1') {
+                        int m2=0;
+                        mutex_lock(&entry->node);
                         if (tcph->dest != entry->dstport)
+                        {
+                            m2=1;
+                            mutex_unlock(&entry->node);    
                             return 0;
+                        }    
+                        if(m2==0)
+                            mutex_unlock(&entry->node);
                     }
                 }
+                if(m5==0)
+                    mutex_unlock(&entry->node);    
             printk(KERN_ALERT "packet dropped by bfilter.\n");    
 			return 1;
 			}
 		}
+        if(m1==0)
+            mutex_unlock(&entry->node);
 	}	
 
 	//printk(KERN_ALERT "IP header details==> SrcIP:%pI4, DstIP:%pI4, TOS:%c, PROTOCOL:%c, TTL:%c\n", &(iph->saddr), &(iph->daddr), iph->tos, iph->protocol, iph->ttl);
@@ -174,7 +268,7 @@ static int do_bfilter(struct sk_buff *skb)
 
 static int filter_init(void)
 {
-        //To initialize the mutex for the linked list
+    //To initialize the mutex for the linked list
 	//mutex_init(&mbllmutex);
 
 	//To initialize the mbState linked list;
