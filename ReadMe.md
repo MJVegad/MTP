@@ -17,8 +17,8 @@ p - protocol / ethprotocol<br/>
 
 
 #### Explanation: current IP/MAC/TCP filters' status:
-Bit - j = 0, filter corrosponding to that bit is OFF<br/>
-&nbsp	= 1, filter corrosponding to that bit is ON<br/>
+Jth bit = 0, filter corrosponding to that bit is OFF<br/>
+Jth bit = 1, filter corrosponding to that bit is ON<br/>
 <br/>
 For IP filters' status,<br/>
 bit 0 - srcIP(LSB), bit 1 - dstIP, bit 2 - tos, bit 3 - protocol(MSB)<br/>
