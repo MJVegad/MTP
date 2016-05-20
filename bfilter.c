@@ -40,6 +40,8 @@ extern struct Mbinfo* mymb;
 extern struct mbState mbState_list;
 //EXPORT_SYMBOL(mbState_list);
 
+extern struct mbState1 mbState_list1;
+
 /* return value - 1 (drop the packet) | 0 (forward the packet) */
 static int do_bfilter(struct sk_buff *skb)
 {
@@ -67,7 +69,7 @@ static int do_bfilter(struct sk_buff *skb)
 		{
             m1=1;
             mutex_unlock(&entry->node);
-            printk(KERN_ALERT "MAC Addr matched:%pM\n", &(entry->macaddr));
+           // printk(KERN_ALERT "MAC Addr matched:%pM\n", &(entry->macaddr));
             mutex_lock(&entry->node);
 			if(entry->ipfilters==0 && entry->macfilters==0 && entry->ipfilters==0)
 			{
@@ -82,16 +84,16 @@ static int do_bfilter(struct sk_buff *skb)
 				{
                     m3=1;
                     mutex_unlock(&entry->node);
-                    printk(KERN_ALERT "ipfilter not zero for dest:%pM\n", &(entry->macaddr));
+                   // printk(KERN_ALERT "ipfilter not zero for dest:%pM\n", &(entry->macaddr));
                     mutex_lock(&entry->node);
 					int temp = intToBinary(entry->ipfilters);
                     mutex_unlock(&entry->node);
 					char filters[5];
 					tostring(filters, temp);  
 
-                    printk(KERN_ALERT "ipfilters:%s\n", filters);
+                   // printk(KERN_ALERT "ipfilters:%s\n", filters);
 					if (filters[3]=='1') {
-                        printk(KERN_ALERT "source ip address filter set for:%pM\n", &(entry->macaddr));
+                      //  printk(KERN_ALERT "source ip address filter set for:%pM\n", &(entry->macaddr));
                         unsigned char t[16];
                         snprintf(t,16,"%pI4",&(iph->saddr));
                         int m2=0;
@@ -106,7 +108,7 @@ static int do_bfilter(struct sk_buff *skb)
                             mutex_unlock(&entry->node);    							
 					}
 					if (filters[2]=='1') {
-                        printk(KERN_ALERT "dest ip address filter set for:%pM\n", &(entry->macaddr));
+                        //printk(KERN_ALERT "dest ip address filter set for:%pM\n", &(entry->macaddr));
                         unsigned char t[16];
                         snprintf(t,16,"%pI4",&(iph->daddr));
                         int m2=0;
@@ -133,8 +135,8 @@ static int do_bfilter(struct sk_buff *skb)
                             mutex_unlock(&entry->node);
                     }
 					if (filters[0]=='1') {
-                        printk(KERN_ALERT "IP protocol filter set for:%pM\n", &(entry->macaddr));
-                        printk(KERN_ALERT "ll val:%ld, iph->proto:%ld\n", entry->protocol, iph->protocol);
+                        //printk(KERN_ALERT "IP protocol filter set for:%pM\n", &(entry->macaddr));
+                        //printk(KERN_ALERT "ll val:%ld, iph->proto:%ld\n", entry->protocol, iph->protocol);
                         // flags for non-recursive mutexes
                         int m2=0;   
                         mutex_lock(&entry->node);
@@ -230,7 +232,7 @@ static int do_bfilter(struct sk_buff *skb)
                 }
                 if(m5==0)
                     mutex_unlock(&entry->node);    
-            printk(KERN_ALERT "packet dropped by bfilter.\n");    
+            //printk(KERN_ALERT "packet dropped by bfilter.\n");    
 			return 1;
 			}
 		}
@@ -273,7 +275,9 @@ static int filter_init(void)
 
 	//To initialize the mbState linked list;
 	INIT_LIST_HEAD(&mbState_list.list);
-	printk("Linked list initialized.\n");
+	printk("Firewall linked list initialized.\n");
+    INIT_LIST_HEAD(&mbState_list1.list);
+    printk("Load balancer linked list initialized.\n");
     bridge_filter = do_bfilter;
     return 0;
 }

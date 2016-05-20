@@ -60,3 +60,25 @@ To remove a bridge:
 ===================
 # ip link set kvmbr0 down
 # brctl delbr kvmbr0
+
+
+To enable/disable a cpu core on fly:
+=====================================
+==> To disable a core run the following command on a Ubuntu machine:
+    # echo 0 > /sys/devices/system/cpu/cpu3/online
+==> To enable a core run the following command on a Ubuntu machine:
+    # echo 1 > /sys/devices/system/cpu/cpu3/online
+Test if the core is disabled or not, check the /proc/cpuinfo file. 
+
+To check function execution time:
+=================================
+Enable CONFIG_FUNCTION_TRACER and CONFIG_FUNCTION_GRAPH_TRACER
+cd /sys/kernel/debug/tracing
+echo __do_softirq > set graph_function
+echo function_graph > current_tracer
+cat trace
+
+
+To average ISR time:
+====================
+cat EXperiments/ISR_times_w_module_1.txt | awk '{ sum += $1; n++ } END {if (n > 0) print sum / n;}'

@@ -54,8 +54,8 @@ int main()
 				int ret = syscall(326, str);
 				if(ret<0)
 					exit(1);
-				//printf("%s",str);
-				//printf("\n");
+				printf("%s",str);
+				printf("\n");
 				//free(str);
 				p[i]='$';
 			}
