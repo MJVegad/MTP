@@ -1,0 +1,3 @@
+Average ISR time without module ==> 71.4929 us (over 50 samples)
+Average ISR time with module (with out processing) ==> 73.7046 us (over 50 samples)
+Average ISR time with module (with processing) ==> 25.9041 us (over 50 samples)
