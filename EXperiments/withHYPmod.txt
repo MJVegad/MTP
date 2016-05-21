@@ -1,0 +1,69 @@
+ 2)               |                      br_handle_frame_finish [bridge]() {
+ 2)               |                        do_bfilter [bfilter]() {
+ 2)               |                          mutex_lock() {
+ 2)   0.027 us    |                            _cond_resched();
+ 2)   0.314 us    |                          }
+ 2)   0.040 us    |                          mutex_unlock();
+ 2)               |                          mutex_lock() {
+ 2)   0.027 us    |                            _cond_resched();
+ 2)   0.244 us    |                          }
+ 2)   0.028 us    |                          mutex_unlock();
+ 2)               |                          mutex_lock() {
+ 2)   0.020 us    |                            _cond_resched();
+ 2)   0.241 us    |                          }
+ 2)   0.020 us    |                          mutex_unlock();
+ 2)   0.062 us    |                          tostring [bfilter]();
+ 2)               |                          mutex_lock() {
+ 2)   0.021 us    |                            _cond_resched();
+ 2)   0.246 us    |                          }
+ 2)   0.028 us    |                          mutex_unlock();
+ 2)               |                          mutex_lock() {
+ 2)   0.026 us    |                            _cond_resched();
+ 2)   0.226 us    |                          }
+ 2)   0.030 us    |                          mutex_unlock();
+ 2)   5.126 us    |                        }
+********************************** do_filter completes ***********************************
+
+ 2)               |                        /* code_1_at_hypervisor:52:54:00:12:34:56 */
+ 2)               |                        kfree_skb() {
+ 2)               |                          skb_release_all() {
+ 2)   0.065 us    |                            skb_release_head_state();
+ 2)               |                            skb_release_data() {
+ 2)   0.162 us    |                              __free_page_frag();
+ 2)   0.431 us    |                            }
+ 2)   0.909 us    |                          }
+ 2)               |                          kfree_skbmem() {
+ 2)               |                            kmem_cache_free() {
+ 2)   0.086 us    |                              __slab_free();
+ 2)   0.382 us    |                            }
+ 2)   0.614 us    |                          }
+ 2)   1.944 us    |                        }
+ 2)   7.931 us    |                      }
+ 2) + 10.094 us   |                    }
+ 2) + 11.930 us   |                  }
+ 2) + 12.170 us   |                }
+ 2) + 12.673 us   |              }
+ 2) + 14.554 us   |            }
+ 2) + 15.083 us   |          }
+
+********************************** similar to normal proceedings***************************
+ 2)               |          e1000_alloc_rx_buffers [e1000e]() {
+ 2)               |            __netdev_alloc_skb() {
+ 2)   0.022 us    |              __alloc_page_frag();
+ 2)               |              __build_skb() {
+ 2)               |                kmem_cache_alloc() {
+ 2)               |                  __slab_alloc() {
+ 2)   0.170 us    |                    ___slab_alloc();
+ 2)   0.429 us    |                  }
+ 2)   0.681 us    |                }
+ 2)   0.940 us    |              }
+ 2)   1.518 us    |            }
+ 2)   1.878 us    |          }
+ 2) + 18.836 us   |        }
+ 2)   0.044 us    |        napi_complete_done();
+ 2)   6.748 us    |        e1000_irq_enable [e1000e]();
+ 2) + 26.766 us   |      }
+ 2) + 27.105 us   |    }
+ 2)   0.042 us    |    rcu_bh_qs();
+ 2)   0.029 us    |    __local_bh_enable();
+ 2) + 27.896 us   |  }

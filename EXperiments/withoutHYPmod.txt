@@ -1,0 +1,153 @@
+ 2)               |                      br_handle_frame_finish [bridge]() {
+ 2)               |                        do_bfilter [bfilter]() {
+ 2)               |                          mutex_lock() {
+ 2)   0.026 us    |                            _cond_resched();
+ 2)   0.750 us    |                          }
+ 2)   0.040 us    |                          mutex_unlock();
+ 2)               |                          mutex_lock() {
+ 2)   0.027 us    |                            _cond_resched();
+ 2)   0.245 us    |                          }
+ 2)   0.025 us    |                          mutex_unlock();
+ 2)   2.915 us    |                        }
+********************************** do_filter completes ***********************************
+
+ 2)               |                        /* code_0_at_hypervisor:52:54:00:12:34:56 */
+ 2)   0.091 us    |                        br_allowed_ingress [bridge](); // call related to vlan check
+ 2)   0.210 us    |                        br_fdb_update [bridge](); // to update forwarding DB of the bridge
+ 2)   1.089 us    |                        __br_fdb_get [bridge](); // to get the forwading interface
+ 2)               |                        br_forward [bridge]() {  // related to bridge forwarding 
+ 2)   0.033 us    |                          br_allowed_egress [bridge]();
+ 2)               |                          __br_forward [bridge]() {
+ 2)   0.032 us    |                            br_handle_vlan [bridge]();
+ 2)               |                            br_forward_finish [bridge]() {
+ 2)               |                              nf_hook_slow() {
+ 2)               |                                nf_iterate() {
+ 2)               |                                  ebt_nat_out [ebtable_nat]() {
+ 2)               |                                    ebt_do_table [ebtables]() {
+ 2)   0.027 us    |                                      _raw_read_lock_bh();
+ 2)               |                                      _raw_read_unlock_bh() {
+ 2)   0.026 us    |                                        __local_bh_enable_ip();
+ 2)   0.241 us    |                                      }
+ 2)   0.817 us    |                                    }
+ 2)   1.040 us    |                                  }
+ 2)   1.289 us    |                                }
+ 2)   1.497 us    |                              }
+ 2)               |                              br_dev_queue_push_xmit [bridge]() { // To transfer the frame to lower layers
+ 2)   0.152 us    |                                is_skb_forwardable();
+ 2)   0.024 us    |                                skb_push();
+ 2)               |                                dev_queue_xmit() {
+ 2)               |                                  __dev_queue_xmit() {
+ 2)   0.118 us    |                                    netdev_pick_tx();
+ 2)               |                                    validate_xmit_skb.isra.103.part.104() {
+ 2)               |                                      netif_skb_features() {
+ 2)   0.026 us    |                                        passthru_features_check();
+ 2)   0.027 us    |                                        skb_network_protocol();
+ 2)   0.606 us    |                                      }
+ 2)   0.860 us    |                                    }
+ 2)   0.024 us    |                                    _raw_spin_lock();
+ 2)               |                                    dev_hard_start_xmit() {
+ 2)               |                                      tun_net_xmit() {
+ 2)               |                                        __skb_get_hash() {
+ 2)               |                                          __skb_flow_dissect() {
+ 2)   0.059 us    |                                            __skb_flow_get_ports();
+ 2)   0.409 us    |                                          }
+ 2)   0.786 us    |                                        }
+ 2)               |                                        skb_queue_tail() {
+ 2)   0.027 us    |                                          _raw_spin_lock_irqsave();
+ 2)   0.034 us    |                                          _raw_spin_unlock_irqrestore();
+ 2)   0.500 us    |                                        }
+ 2)               |                                        sock_def_readable() {
+ 2)               |                                          __wake_up_sync_key() {
+ 2)   0.028 us    |                                            _raw_spin_lock_irqsave();
+ 2)               |                                            __wake_up_common() {
+ 2)               |                                              pollwake() {
+ 2)               |                                                default_wake_function() {
+ 2)               |                                                  try_to_wake_up() {
+ 2)   0.037 us    |                                                    _raw_spin_lock_irqsave();
+ 2)   0.072 us    |                                                    task_waking_fair();
+ 2)               |                                                    select_task_rq_fair() {
+ 2)               |                                                      select_idle_sibling() {
+ 2)   0.050 us    |                                                        idle_cpu();
+ 2)   0.281 us    |                                                      }
+ 2)   0.771 us    |                                                    }
+ 2)   0.024 us    |                                                    _raw_spin_lock();
+ 2)               |                                                    ttwu_do_activate.constprop.91() {
+ 2)               |                                                      activate_task() {
+ 2)   0.059 us    |                                                        update_rq_clock.part.81();
+ 2)               |                                                        enqueue_task_fair() {
+ 2)               |                                                          enqueue_entity() {
+ 2)   0.040 us    |                                                            update_curr();
+ 2)   0.043 us    |                                                            account_entity_enqueue();
+ 2)   0.132 us    |                                                            update_cfs_shares();
+ 2)   0.054 us    |                                                            place_entity();
+ 2)   0.060 us    |                                                            __enqueue_entity();
+ 2)   2.271 us    |                                                          }
+ 2)               |                                                          enqueue_entity() {
+ 2)   0.048 us    |                                                            update_curr();
+ 2)   0.033 us    |                                                            account_entity_enqueue();
+ 2)   0.133 us    |                                                            update_cfs_shares();
+ 2)   0.028 us    |                                                            place_entity();
+ 2)   0.028 us    |                                                            __enqueue_entity();
+ 2)   1.328 us    |                                                          }
+ 2)               |                                                          enqueue_entity() {
+ 2)   0.089 us    |                                                            update_curr();
+ 2)   0.025 us    |                                                            account_entity_enqueue();
+ 2)   0.110 us    |                                                            update_cfs_shares();
+ 2)   0.029 us    |                                                            place_entity();
+ 2)   0.028 us    |                                                            __enqueue_entity();
+ 2)   1.277 us    |                                                          }
+ 2)               |                                                          enqueue_entity() {
+ 2)   0.028 us    |                                                            update_curr();
+ 2)   0.028 us    |                                                            __compute_runnable_contrib();
+ 2)   0.044 us    |                                                            account_entity_enqueue();
+ 2)   0.060 us    |                                                            update_cfs_shares();
+ 2)   0.025 us    |                                                            place_entity();
+ 2)   0.028 us    |                                                            __enqueue_entity();
+ 2)   1.489 us    |                                                          }
+ 2)   0.023 us    |                                                          hrtick_update();
+ 2)   7.520 us    |                                                        }
+ 2)   8.283 us    |                                                      }
+ 2)               |                                                      ttwu_do_wakeup() { // wake up a core to schedule the handling of the packet ==> In /kernel/sched/core.c
+ 2)               |                                                        check_preempt_curr() {
+ 2)   0.050 us    |                                                          resched_curr();
+ 2)   0.372 us    |                                                        }
+ 2)   0.912 us    |                                                      }
+ 2)   9.649 us    |                                                    }
+ 2)   0.203 us    |                                                    ttwu_stat();
+ 2)   0.032 us    |                                                    _raw_spin_unlock_irqrestore();
+ 2) + 12.380 us   |                                                  }
+ 2) + 12.621 us   |                                                }
+ 2) + 12.851 us   |                                              }
+ 2) + 13.123 us   |                                            }
+ 2)   0.032 us    |                                            _raw_spin_unlock_irqrestore();
+ 2) + 13.787 us   |                                          }
+ 2) + 14.178 us   |                                        }
+ 2) + 16.568 us   |                                      }
+ 2) + 16.879 us   |                                    }
+ 2)   0.024 us    |                                    __local_bh_enable_ip();
+ 2) + 19.323 us   |                                  }
+ 2) + 19.558 us   |                                }
+ 2) + 20.416 us   |                              }
+ 2) + 22.391 us   |                            }
+ 2) + 22.868 us   |                          }
+ 2) + 23.417 us   |                        }
+ 2) + 29.671 us   |                      }
+ 2) + 33.453 us   |                    }
+ 2) + 35.744 us   |                  }
+ 2) + 35.985 us   |                }
+ 2) + 36.465 us   |              }
+ 2) + 39.505 us   |            }
+ 2) + 40.254 us   |          }
+
+********************************** similar to normal proceedings***************************
+ 2)               |          e1000_alloc_rx_buffers [e1000e]() {
+ 2)   0.158 us    |            skb_trim();
+ 2)   0.639 us    |          }
+ 2) + 54.793 us   |        }
+ 2)   0.048 us    |        napi_complete_done();
+ 2)   6.342 us    |        e1000_irq_enable [e1000e]();
+ 2) + 62.658 us   |      }
+ 2) + 63.085 us   |    }
+ 2)   0.127 us    |    rcu_bh_qs();
+ 2)   0.029 us    |    __local_bh_enable();
+ 2) + 64.204 us   |  }
