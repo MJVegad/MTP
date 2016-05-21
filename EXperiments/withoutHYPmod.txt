@@ -71,6 +71,8 @@
  2)   0.281 us    |                                                      }
  2)   0.771 us    |                                                    }
  2)   0.024 us    |                                                    _raw_spin_lock();
+
+************************************ Wake up a core to schedule the handling of the packet ==> In /kernel/sched/core.c ******************************
  2)               |                                                    ttwu_do_activate.constprop.91() {
  2)               |                                                      activate_task() {
  2)   0.059 us    |                                                        update_rq_clock.part.81();
@@ -107,7 +109,7 @@
  2)   0.023 us    |                                                          hrtick_update();
  2)   7.520 us    |                                                        }
  2)   8.283 us    |                                                      }
- 2)               |                                                      ttwu_do_wakeup() { // wake up a core to schedule the handling of the packet ==> In /kernel/sched/core.c
+ 2)               |                                                      ttwu_do_wakeup() {
  2)               |                                                        check_preempt_curr() {
  2)   0.050 us    |                                                          resched_curr();
  2)   0.372 us    |                                                        }
@@ -115,6 +117,7 @@
  2)   9.649 us    |                                                    }
  2)   0.203 us    |                                                    ttwu_stat();
  2)   0.032 us    |                                                    _raw_spin_unlock_irqrestore();
+********************************************************************************************************************************************************
  2) + 12.380 us   |                                                  }
  2) + 12.621 us   |                                                }
  2) + 12.851 us   |                                              }
