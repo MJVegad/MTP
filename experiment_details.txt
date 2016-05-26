@@ -82,3 +82,18 @@ cat trace
 To average ISR time:
 ====================
 cat EXperiments/ISR_times_w_module_1.txt | awk '{ sum += $1; n++ } END {if (n > 0) print sum / n;}'
+
+
+Comparing to IpTables:
+======================
+-> administration tool for IPv4/IPv6 packet filtering and NAT (two different middlebox functionalities)
+-> provides filtering based on IP protocols, source or destination IP address
+-> provides load balancing based on IP address
+-------------------
+MB functionalities:
+-------------------
+-> MB functionalities are implemented or used as per organization neeeds. It can be any functionality apart from routing in the network. So there is no finite set of the MBs. IpTables, itself is a MB functi
+onality. Some other examples of MBs are,
+-> provides filtering based on any layer packet header field, basically any layer firewall
+-> provides IP / MAC / Application based load balancing
+-> IDS/IPS

@@ -1,0 +1,145 @@
+\documentclass[a4paper,11pt]{report}
+
+
+%\usepackage[a4paper,left=2.4cm,right=2.4cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage [a4paper,total={6in,10in}]{geometry}
+%\usepackage[nottoc,notlot,notlof]{tocbibind}
+\addcontentsline{toc}{chapter}{References}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{Z}[1]{%
+ >{\vbox to 5ex\bgroup\vfill\centering}%
+ p{#1}%
+ <{\egroup}}  
+ \usepackage{indentfirst}
+\graphicspath{{../}}
+\renewcommand{\bibname}{References}
+
+
+\title{\textbf { \vspace{3pt} A Middlebox Specialized Hypervisor}} 
+\author{\vspace{2cm} A project report \vspace{3cm} Submitted in partial fulfillment of requirements for the degree of \vspace{2cm} Master of Technology \vspace{2cm} By \vspace{2cm} \textbf{Mihir Vegad J.} \vspace{1cm} 143050073 \vspace{2cm} under the guidance of \vspace{2cm} \textbf{Prof. Purushottam Kulkarni} \vspace{2cm}  
+  } 
+
+
+
+\begin{document}
+
+
+%\date{}
+%\maketitle
+
+
+%\begin{figure}[h]
+%\centering
+%\includegraphics[scale=0.3]{iitb.png}
+%\end{figure} 
+%\vspace{3cm}
+%{\center{Department of Computer Science and Engineering \\ Indian Institute of Technology, %Bombay \vspace{1cm}}} 
+
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{2cm}
+
+%\textsc{\fontsize{20}{24}\selectfont Indian Institute of Technology, Bombay}\\[2cm]
+\textsc{\Large \bf Project Report}\\[0.85cm]
+
+\hrulefill
+\\[1cm]
+{\huge \bf A Middlebox Specialized Hypervisor}\\[0.4cm]
+\hrulefill
+\\[1cm]
+
+\begin{minipage}{0.44\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+{\Large \textbf {Mihir J. Vegad}}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.44\textwidth}
+\begin{flushright} \large
+\emph{Guide:} \\
+{\Large \textbf {Prof. Purushottam Kulkarni}}
+\end{flushright}
+\end{minipage}\\[2cm]
+
+\large \textit{A report submitted in partial fulfilment of the requirements\\
+[0.5cm] for the degree of Master of Technology in the\\ 
+[0.5cm]Computer Science and Engineering}\\[2cm]
+
+\includegraphics[width=4cm]{iitb.png}\\[0.75cm]
+
+\textsc{\large Department of Computer Science and Engineering\\Indian Institute of Technology, Bombay}
+\\[1cm]
+%{\large \mydate\today} % Date
+%\includegraphics{Logo} % University/department logo - uncomment to place it
+
+\end{center}
+\end{titlepage}
+\clearpage
+
+\newpage
+\vspace*{3cm}
+{\center \textbf {Acknowledgement}\\}
+
+\vspace{0.5cm}
+\noindent I would like to thank my guide, \textbf {Prof. Purushottam Kulkarni} for giving me the opportunity to work in this field. I really appreciate the efforts which he put in throughout the project, to understand the work done by us and then to guide us to the next step. During this process, I learned a lot and overall it has created strong base for me in the field of NFV/SDN/Virtualization. I would like to thank Debadatta Mishra for answering the queries and for his valuable input at times. I would also like to thank fellow SYNERG mates for extending their support whenever it was required.   
+\newpage
+
+\vspace*{2cm}
+{\center \textbf {Abstract}\\}
+\vspace{1cm}
+\noindent Mypervisor is a middlebox specialised hypervisor to virtualize middleboxes in an effcient way. There are many techniques to host middleboxes on the physical machines in data centre networks. We compared various popular techniques to conclude that middlebox performance in data centres can still be optimized. Main idea of the Mypervisor is to reduce the communication between the middleboxes and the hypervisor by off loading a set of middlebox functionalities to the hypervisor. We proposed a Mypervisor design and discussed its potential gains like improved processor utilization and throughput. We also implemented the Mypervisor for the modified Wire middlebox. Modified Wire middlebox has a functionality of filtering the incoming packets in addition to trivial Wire functionalities. We strongly hope that Wire Mypervisor will prove to be a stepping stone for implementation of a more complete Mypervisor.   
+
+%\noindent Virtualization has started becoming a boom in the market as corporate world wants to do more with less resources. Virtualization provides benefits like improvement of  overall infrastructure cost, overall management cost and eliminates the hardware vendor dependancy. We will discuss a type of virtualization which simplifies the deployment and management of network functions, that is Network Function Virtualization. NFV virtualizes the dedicated hardware network functions to a software network application which can run on standard x86 machines. These network functions are called middleboxes. We will discuss presence of the middleboxes in current data centres and why it is important to optimize the performance of middleboxes. When we talk about virtualization, hypervisor becomes the name of the game. We will define the term hypervisor and explain its role in virtualization in more detail. There are many techniques to host middleboxes on the physical machines in data centre networks. All the techniques have their own ups and downs.                             
+%We have come up with our own technique to efficiently host middleboxes on the physical machine. We named it as Mypervisor that is middlebox specialised hypervisor. Based on our study of middleboxes and hypervisors, we concluded that middlebox performance in data centres can still be optimized. Mypervisor offloads some middlebox functionality to the hypervisor to meet performance requirements. We proposed a design for Mypervisor and implemented it for a Wire middlebox. Wire Mypervisor will prove to be a stepping stone for implementation of a more complete Mypervisor.                
+
+\newpage
+\tableofcontents
+\listoffigures
+%\begingroup
+%\let\clearpage\relax
+\listoftables
+%\endgroup
+\newpage
+%\bigskip
+\chapter{Introduction}
+\section{Rise of NFV: Middleboxes}
+\section{Traditional Hypervisors}
+\section{Motivation}        
+\section{Problem Description}
+\section{Organization of the work}  
+\section{Outline of the report}    
+
+\chapter{Virtualized Data Centers}
+\section{Middlboxes in data centers}
+\section{Hypervisors in data centers}
+
+\chapter{Related Work}
+\section{Redesign the Operating System}
+\section{Redesign the Hypervisors}
+\section{Redesign the hardware}
+
+\chapter{Design and Implementation}
+\section{Modified Hypervisor}
+\section{Limitations}
+\section{Challenges}
+
+\chapter{Experiments}
+\section{Experiment setup}
+\section{Metrics to be observed}
+\section{Results}
+
+\chapter{Conclusion and Future work}
+
+\newpage
+\bibliographystyle {acm}
+\bibliography {report}
+\end{document}
+
