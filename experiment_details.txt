@@ -97,3 +97,197 @@ onality. Some other examples of MBs are,
 -> provides filtering based on any layer packet header field, basically any layer firewall
 -> provides IP / MAC / Application based load balancing
 -> IDS/IPS
+
+
+ftrace_on _guest:
+==================
+
+ 0)             |   do_IRQ() {
+ 0)             |     irq_enter() {
+ 0)   0.058 us  |       rcu_irq_enter();
+ 0)   0.431 us  |     }
+ 0)   0.054 us  |     exit_idle();
+ 0)             |     handle_irq() {
+ 0)             |       handle_edge_irq() {
+ 0)   0.112 us  |         _raw_spin_lock();
+ 0)   0.112 us  |         irq_may_run();
+ 0)             |         irq_chip_ack_parent() {
+ 0)             |           apic_ack_edge() {
+ 0)   0.202 us  |             __irq_complete_move();
+ 0)   0.058 us  |             irq_move_irq();
+ 0)   0.056 us  |             kvm_guest_apic_eoi_write();
+ 0)   1.550 us  |           }
+ 0)   2.337 us  |         }
+ 0)             |         handle_irq_event() {
+ 0)             |           handle_irq_event_percpu() {
+ 0)             |             vring_interrupt() {
+ 0)             |               skb_recv_done() {
+ 0)   0.072 us  |                 virtqueue_disable_cb();
+ 0)             |                 __napi_schedule() {
+ 0)   0.058 us  |                   __raise_softirq_irqoff();
+ 0)   0.565 us  |                 }
+ 0)   2.081 us  |               }
+ 0)   3.061 us  |             }
+ 0)   0.174 us  |             add_interrupt_randomness();
+ 0)   0.100 us  |             note_interrupt();
+ 0)   4.823 us  |           }
+ 0)   0.055 us  |           _raw_spin_lock();
+ 0)   5.874 us  |         }
+ 0) + 10.362 us   |       }
+ 0) + 11.146 us   |     }
+ 0)             |     irq_exit() {
+ 0)             |       net_rx_action() {
+ 0)             |         virtnet_poll() {
+ 0)             |           virtnet_receive() {
+ 0)             |             virtqueue_get_buf() {
+ 0)   0.323 us  |               detach_buf();
+ 0)   0.834 us  |             }
+ 0)             |             page_to_skb.isra.31() {
+ 0)             |               __napi_alloc_skb() {
+ 0)   0.126 us  |                 __alloc_page_frag();
+ 0)             |                 __build_skb() {
+ 0)   0.130 us  |                   kmem_cache_alloc();
+ 0)   0.780 us  |                 }
+ 0)   1.821 us  |               }
+ 0)   0.060 us  |               skb_put();
+ 0)   0.149 us  |               skb_add_rx_frag();
+ 0)   4.093 us  |             }
+ 0)   0.194 us  |             eth_type_trans();
+ 0)             |             napi_gro_receive() {
+ 0)   0.056 us  |               skb_gro_reset_offset();
+ 0)             |               dev_gro_receive() {
+ 0)             |                 inet_gro_receive() {
+ 0)             |                   udp4_gro_receive() {
+ 0)             |                     __skb_gro_checksum_complete() {
+ 0)             |                       skb_checksum() {
+ 0)             |                         __skb_checksum() {
+ 0)             |                           csum_partial() {
+ 0)   0.124 us  |                             do_csum();
+ 0)   0.511 us  |                           }
+ 0)             |                           csum_partial() {
+ 0)   0.286 us  |                             do_csum();
+ 0)   0.636 us  |                           }
+ 0)   2.113 us  |                         }
+ 0)   2.545 us  |                       }
+ 0)   3.037 us  |                     }
+ 0)   0.279 us  |                     udp_gro_receive();
+ 0)   4.398 us  |                   }
+ 0)   5.236 us  |                 }
+ 0)   6.223 us  |               }
+ 0)             |               netif_receive_skb_internal() {
+ 0)   0.268 us  |                 ktime_get_with_offset();
+ 0)             |                 __netif_receive_skb() {
+ 0)             |                   /* Packet received from:10.196.12.182 */
+ 0)             |                   __netif_receive_skb_core() {
+ 0)             |                     packet_rcv() {
+ 0)   0.062 us  |                       skb_push();
+ 0)   1.556 us  |                       __bpf_prog_run();
+ 0)   0.063 us  |                       consume_skb();
+ 0)   4.063 us  |                     }
+ 0)             |                     ip_rcv() {
+ 0)             |                       ip_rcv_finish() {
+ 0)             |                         udp_v4_early_demux() {
+ 0)   0.458 us  |                           ipv4_dst_check();
+ 0)   2.143 us  |                         }
+ 0)             |                         ip_local_deliver() {
+ 0)             |                           ip_local_deliver_finish() {
+ 0)   0.283 us  |                             raw_local_deliver();
+ 0)             |                             udp_rcv() {
+ 0)             |                               __udp4_lib_rcv() {
+ 0)             |                                 udp_queue_rcv_skb() {
+ 0)   0.114 us  |                                   ipv4_pktinfo_prepare();
+ 0)   0.057 us  |                                   _raw_spin_lock();
+ 0)             |                                   __udp_queue_rcv_skb() {
+ 0)             |                                     sock_queue_rcv_skb() {
+ 0)             |                                       sk_filter() {
+ 0)   0.094 us  |                                         security_sock_rcv_skb();
+ 0)   0.607 us  |                                       }
+ 0)   0.058 us  |                                       _raw_spin_lock_irqsave();
+ 0)   0.070 us  |                                       _raw_spin_unlock_irqrestore();
+ 0)             |                                       sock_def_readable() {
+ 0)             |                                         __wake_up_sync_key() {
+ 0)   0.060 us  |                                           _raw_spin_lock_irqsave();
+ 0)             |                                           __wake_up_common() {
+ 0)             |                                             receiver_wake_function() {
+ 0)             |                                               autoremove_wake_function() {
+ 0)             |                                                 default_wake_function() {
+ 0)             |                                                   try_to_wake_up() {
+ 0)   0.209 us  |                                                     _raw_spin_lock_irqsave();
+ 0)   0.249 us  |                                                     task_waking_fair();
+ 0)   0.066 us  |                                                     _raw_spin_lock();
+ 0)             |                                                     ttwu_do_activate.constprop.94() {
+ 0)             |                                                       activate_task() {
+ 0)   0.139 us  |                                                         update_rq_clock.part.83();
+ 0)             |                                                         enqueue_task_fair() {
+ 0)             |                                                           enqueue_entity() {
+ 0)   0.114 us  |                                                             update_curr();
+ 0)   0.114 us  |                                                             __compute_runnable_contrib();
+ 0)   0.054 us  |                                                             __compute_runnable_contrib();
+ 0)   0.178 us  |                                                             account_entity_enqueue();
+ 0)   0.860 us  |                                                             update_cfs_shares();
+ 0)   0.103 us  |                                                             place_entity();
+ 0)   0.110 us  |                                                             __enqueue_entity();
+ 0)   4.739 us  |                                                           }
+ 0)             |                                                           enqueue_entity() {
+ 0)             |                                                             update_curr() {
+ 0)   0.094 us  |                                                               update_min_vruntime();
+ 0)   0.577 us  |                                                             }
+ 0)   0.056 us  |                                                             __compute_runnable_contrib();
+ 0)   0.054 us  |                                                             __compute_runnable_contrib();
+ 0)   0.064 us  |                                                             account_entity_enqueue();
+ 0)   0.139 us  |                                                             update_cfs_shares();
+ 0)   0.058 us  |                                                             place_entity();
+ 0)   0.088 us  |                                                             __enqueue_entity();
+ 0)   3.530 us  |                                                           }
+ 0)   0.056 us  |                                                           hrtick_update();
+ 0)   9.429 us  |                                                         }
+ 0) + 10.388 us   |                                                       }
+ 0)             |                                                       ttwu_do_wakeup() {
+ 0)             |                                                         check_preempt_curr() {
+ 0)             |                                                           check_preempt_wakeup() {
+ 0)   0.080 us  |                                                             update_curr();
+ 0)   0.056 us  |                                                             wakeup_gran.isra.61();
+ 0)   0.066 us  |                                                             set_next_buddy();
+ 0)   0.062 us  |                                                             resched_curr();
+ 0)   1.609 us  |                                                           }
+ 0)   2.019 us  |                                                         }
+ 0)   2.714 us  |                                                       }
+ 0) + 13.832 us   |                                                     }
+ 0)   0.066 us  |                                                     _raw_spin_unlock_irqrestore();
+ 0) + 16.279 us   |                                                   }
+ 0) + 16.677 us   |                                                 }
+ 0) + 17.102 us   |                                               }
+ 0) + 17.637 us   |                                             }
+ 0) + 18.271 us   |                                           }
+ 0)   0.069 us  |                                           _raw_spin_unlock_irqrestore();
+ 0) + 19.585 us   |                                         }
+ 0) + 20.050 us   |                                       }
+ 0) + 22.780 us   |                                     }
+ 0) + 23.280 us   |                                   }
+ 0) + 25.491 us   |                                 }
+ 0) + 26.248 us   |                               }
+ 0) + 26.730 us   |                             }
+ 0) + 27.935 us   |                           }
+ 0) + 28.403 us   |                         }
+ 0) + 31.980 us   |                       }
+ 0) + 32.856 us   |                     }
+ 0) + 38.687 us   |                   }
+ 0) + 41.423 us   |                 }
+ 0) + 42.518 us   |               } /* netif_receive_skb_internal() */
+ 0) + 50.182 us   |             } /* napi_gro_receive() */
+ 0)   0.184 us  |             virtqueue_get_buf();
+ 0)   0.056 us  |             virtqueue_get_vring_size();
+ 0) + 59.127 us   |           } /*virtnet_poll*/
+ 0)   0.071 us  |           virtqueue_enable_cb_prepare();
+ 0)   0.099 us  |           napi_complete_done();
+ 0)   0.085 us  |           virtqueue_poll();
+ 0) + 60.896 us   |         }/*net_rx_action*/
+ 0) + 61.529 us   |       }/*irq_exit*/
+ 0)   0.110 us  |       rcu_bh_qs();
+ 0)   0.059 us  |       __local_bh_enable();
+ 0)   0.057 us  |       idle_cpu();
+ 0)   0.054 us  |       rcu_irq_exit();
+ 0) + 63.813 us   |     }/*handle_irq*/
+ 0) + 77.057 us   |   }/*do_irq*/
+
+

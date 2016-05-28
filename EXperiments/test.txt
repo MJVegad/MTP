@@ -1,3 +1,12 @@
-Average ISR time without module ==> 71.4929 us (over 50 samples)
-Average ISR time with module (with out processing) ==> 73.7046 us (over 50 samples)
-Average ISR time with module (with processing) ==> 25.9041 us (over 50 samples)
+Average ISR time without module ==> 71.4929 us (over 50 random samples) (A)
+Average ISR time with module (with out processing) ==> 73.7046 us (over 50 random samples) (A+B)
+Average ISR time with module (with processing) ==> 25.9041 us (over 50 random samples) ((A-X)+B)
+Average ISR time with/without module on guest ==> 70.0466 us (over 50 random samples) (C)
+Average time taken for a packet processing by a MB functionality => (D) 
+Average bridge processing time + other ISR time saved due to module ==> X
+
+Avg. packet processing time (without module) by MB = A + C + D = 141.54 us + D
+Avg. packet processing time (with module) by MB, if packet forwarded to MB = A + B + C + D = 143.75 us + D
+						 if packet not forwarded to MB = A - X + B = 25.90 us 
+
+Here, we can observe that (A+C+D) is almost equals to (A+B+C+D) and (A-X+B) << (A+C+D). So, this part of firewall functionality is worth offloading to Hypervisor.
