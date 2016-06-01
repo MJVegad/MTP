@@ -1,4 +1,4 @@
-obj-m := bloadbal.o
+obj-m := bfilter.o
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 default:

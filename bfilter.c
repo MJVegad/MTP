@@ -49,6 +49,13 @@ static int do_bfilter(struct sk_buff *skb)
 	struct ethhdr* mh = eth_hdr(skb);
 	struct tcphdr* tcph = tcp_hdr(skb);
 
+	//To filter with percentage
+/*	float filterpercentage = 50;
+        int fp = (int)filterpercentage;
+	long tem=0,decider=0;
+        tem=(current_kernel_time()).tv_nsec;
+        decider = tem % 100;
+*/
     
 
 	// traversing linkedlist of the registered middleboxes 
@@ -232,8 +239,11 @@ static int do_bfilter(struct sk_buff *skb)
                 }
                 if(m5==0)
                     mutex_unlock(&entry->node);    
-            //printk(KERN_ALERT "packet dropped by bfilter.\n");    
+            //printk(KERN_ALERT "packet dropped by bfilter.\n");
+	//	if(decider>=0 && decider <fp)    
 			return 1;
+	//	else
+	//		return 0;
 			}
 		}
         if(m1==0)
