@@ -311,3 +311,16 @@ netmask 255.255.0.0
 $sudo ifconfig eth0 down
 $sudo ifup eth0
 $sudo reboot
+
+
+To see the routing table:
+=========================
+$route -n
+
+To remove a root from the routing table:
+========================================
+$sudo route del -net 10.129.0.0 gw 0.0.0.0 netmask 255.255.0.0 dev eth0
+
+To see UDP receive buffer overflow / drops:
+===========================================
+$watch -n1 "cat /proc/net/udp" 
