@@ -2,21 +2,21 @@
 
 ###Host Setup
 --------------
-1) Run ./bridge_setup.sh.
-2) Start a virtual machine,
-	qemu-system-x86_64 sandbox.img -m 2048 -enable-kvm -device ivshmem,shm=ivshmem,size=1 -net bridge,br=kvmbr0 -net nic,model=virtio
-3) Provide the filtering and the load balancer services at the hypervisor.
-	sudo insmod bfilter.ko
-	sudo insmod bloadbal.ko
-4) Periodically listen to the middleboxes,
-	gcc readSHM.c -lrt
-	sudo ./a.out
+1) Run ./bridge_setup.sh.<br/>
+2) Start a virtual machine,<br/>
+	qemu-system-x86_64 sandbox.img -m 2048 -enable-kvm -device ivshmem,shm=ivshmem,size=1 -net bridge,br=kvmbr0 -net nic,model=virtio<br/>
+3) Provide the filtering and the load balancer services at the hypervisor.<br/>
+	sudo insmod bfilter.ko<br/>
+	sudo insmod bloadbal.ko<br/>
+4) Periodically listen to the middleboxes,<br/>
+	gcc readSHM.c -lrt<br/>
+	sudo ./a.out<br/>
 
 ###Guest Setup
 ---------------
-1) Run ./StartMB.sh.
-2) Now register or quit hypervisor services using commands defined below,
-	sudo ./a.out -w "@....command.....@"
+1) Run ./StartMB.sh.<br/>
+2) Now register or quit hypervisor services using commands defined below,<br/>
+	sudo ./a.out -w "@....command.....@"<br/>
 	
 
 ###Commands For Filtering / Load balancer services
