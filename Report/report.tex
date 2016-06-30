@@ -1,9 +1,9 @@
 \documentclass[a4paper,11pt]{report}
 
 
-%\usepackage[a4paper,left=2.4cm,right=2.4cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[a4paper,left=3.0cm,right=2.0cm,top=1.5cm,bottom=2.2cm,textwidth=16cm,textheight=24.5cm]{geometry}
 \usepackage{graphicx}
-\usepackage [a4paper,total={6in,10in}]{geometry}
+%\usepackage [a4paper,total={6in,10in}]{geometry}
 %\usepackage[nottoc,notlot,notlof]{tocbibind}
 \addcontentsline{toc}{chapter}{References}
 \usepackage{float}
@@ -19,9 +19,9 @@
  \usepackage{indentfirst}
 \graphicspath{{../}}
 \renewcommand{\bibname}{References}
+%\bibliographystyle {acm}
 
-
-\title{\vspace{3pt} A Specialized Hypervisor For Efficient Middlebox Virtualization} 
+\title{\vspace{3pt} Offloading Middlebox Services To Hypervisors For\\[0.2cm] Efficient Network Function Virtualization} 
 \author{\vspace{2cm} A project report \vspace{3cm} Submitted in partial fulfillment of requirements for the degree of \vspace{2cm} Master of Technology \vspace{2cm} By \vspace{2cm} \textbf{Mihir Vegad J.} \vspace{1cm} 143050073 \vspace{2cm} under the guidance of \vspace{2cm} \textbf{Prof. Purushottam Kulkarni} \vspace{2cm}  
   } 
 
@@ -51,31 +51,35 @@
 \textsc{\Large \bf Project Report}\\[0.85cm]
 
 \hrulefill
-\\[1cm]
-{\huge \bf A Specialized Hypervisor For Efficient Middlebox Virtualization}\\[0.4cm]
+\\[0.8cm]
+{\LARGE \bf Offloading Middlebox Services To Hypervisors For\\[0.2cm] Efficient Network Function Virtualization}\\[0.8cm]
 \hrulefill
 \\[1cm]
 
+\large \textit{submitted in partial fulfilment of the requirements\\
+[0.5cm] of the degree of} \\
+[0.5cm]\textbf{Master of Technology}\\[3cm] 
+%[0.5cm]Computer Science and Engineering}\\[2cm]
+
 \begin{minipage}{0.44\textwidth}
 \begin{flushleft} \large
-\emph{Author:}\\
-{\Large \textbf {Mihir J. Vegad}}
+\emph{By:}\\
+{\Large \textbf {Mihir J. Vegad}} \\
+\large \textbf {143050073}
 \end{flushleft}
 \end{minipage}
 \begin{minipage}{0.44\textwidth}
 \begin{flushright} \large
-\emph{Guide:} \\
+\emph{Supervisor:} \\
 {\Large \textbf {Prof. Purushottam Kulkarni}}
 \end{flushright}
 \end{minipage}\\[2cm]
 
-\large \textit{A report submitted in partial fulfilment of the requirements\\
-[0.5cm] for the degree of Master of Technology in the\\ 
-[0.5cm]Computer Science and Engineering}\\[2cm]
+
 
 \includegraphics[width=4cm]{iitb.png}\\[0.75cm]
 
-\textsc{\large Department of Computer Science and Engineering\\Indian Institute of Technology, Bombay}
+\textsc{\large Department of Computer Science and Engineering\\Indian Institute of Technology Bombay\\2016}
 \\[1cm]
 %{\large \mydate\today} % Date
 %\includegraphics{Logo} % University/department logo - uncomment to place it
@@ -83,6 +87,62 @@
 \end{center}
 \end{titlepage}
 \clearpage
+
+
+\newpage
+\pagenumbering{Roman}
+\setcounter{page}{2}
+\begin{figure}[h]
+%\centering
+\includegraphics[scale = 0.45]{mdis.png}
+%\caption{MB presence in the data centres~\cite{DM}}
+\end{figure}
+%\pagenumbering{Roman}
+%\begin{center}
+%\LARGE{\textbf{Declaration of Authorship}}\\
+%\end{center}
+%\vspace{15 mm}
+%I declare that this written submission represents my ideas in my own words and where others' ideas or words have been included, I have adequately cited and referenced the original sources. I also declare that I have adhered to all principles of academic honesty and integrity and have not misrepresented or fabricated or falsified any idea/data/fact/source in my submission.\par
+%\vspace{10pt}
+%\noindent
+%I understand that any violation of the above will be cause for disciplinary action by the Institute and can also evoke penal action from the sources which have thus not been properly cited or from whom proper permission has not been taken when needed.
+%\vspace{1.5in}
+%\begin{flushright}
+%\rule{120pt}{1pt}
+%\end{flushright}
+%\noindent
+%\textbf{Date:} \rule{120pt}{1pt} \hfill \textbf{Mihir J. Vegad} \\[3mm]
+%\textbf{Place:} \underline{\textbf{IIT Bombay, Mumbai}} \hfill %\textbf{Roll No: 143050073}
+
+\newpage
+\begin{figure}[h]
+%\centering
+\includegraphics[scale = 0.5]{mdec.png}
+%\caption{MB presence in the data centres~\cite{DM}}
+\end{figure}
+%\begin{center}
+%\LARGE{\textbf{Dissertation Approval}}\\
+%\end{center}
+%\vspace{15 mm}
+%This dissertation entitled \textbf{``Offloading Middlebox Services To Hypervisors For Efficient Network Function Virtualization''}, submitted by \textbf{Mihir J. Vegad} \textbf{(Roll No: 143050073)} is approved for the degree of \textbf{Master of Technology} in \textbf{Computer Science} \textbf{and Engineering} from \textbf{Indian Institute of Technology Bombay}.\\
+%\vspace{1.5in}\\
+%\begin{center}
+%\rule{200pt}{1pt} \\
+%\textbf{Prof. Purushottam Kulkarni\\
+%Dept. of CSE, IIT Bombay\\
+%Project guide}
+%\end{center}
+%\vspace{1in}
+%\rule{180pt}{1pt} \hfill \rule{180pt}{1pt} \\
+%\textbf{Prof. Mythili Vutukuru \hfill Prof. Varsha Apte\\
+%Dept. of CSE, IIT Bombay \hfill Dept. of CSE, IIT Bombay\\
+%Examiner \hfill Examiner}
+%\vspace{1in}
+%\begin{center}
+%\rule{150pt}{1pt} \\
+%\textbf{Chairperson}
+%\end{center}
+
 
 \newpage
 \vspace*{3cm}
@@ -95,7 +155,9 @@
 \vspace*{2cm}
 {\center \textbf {Abstract}\\}
 \vspace{1cm}
-\noindent    
+%\noindent Mypervisor is a middlebox specialised hypervisor to virtualize middleboxes in an effcient way. There are many techniques to host middleboxes on the physical machines in data centre networks. We compared various popular techniques to conclude that middlebox performance in data centres can still be optimized. Main idea of the Mypervisor is to reduce the communication between the middleboxes and the hypervisor by off loading a set of middlebox functionalities to the hypervisor. We proposed a Mypervisor design and discussed its potential gains like improved processor utilization and throughput. We also implemented the Mypervisor for the modified Wire middlebox. Modified Wire middlebox has a functionality of filtering the incoming packets in addition to trivial Wire functionalities. We strongly hope that Wire Mypervisor will prove to be a stepping stone for implementation of a more complete Mypervisor.
+
+\noindent In a set up where a server hosts several guest machines with the help of the hypervisor, an incoming packet on the server generates two interrupts to the processor. First interrupt is to sort the packet among the guests and the second interrupt is to deliver the packet to the guest. In high speed networks, a guest often cannot process the packet close to the line rate due to these interrupts. For example, in a 10Gbps network, throughput achieved at the guest is 4Gbps at maximum. Some optimizations are suggested as a solution for the problem by reducing the intervention of the hypervisor in the packet processing for guests. But those optimizations are costly to implement and they also come at some cost to scalability and portability of the guests. For example, SR-IOV\cite{5416637} needs special hardware support and it binds the guests to the physical machine. DPDK\cite{DPD} is a software based solution but it needs to modify the guest operating system. Our proposed solution can work as software extensions on any guest and host platform. In this report, we show how we can specialise the hypervisor for a middlebox such that most of the traffic for the middlebox bypasses the actual middlebox processing as it gets processed at the hypervisor only. We improve the average CPU utilization by almost 75 percentage for the firewall middlebox and almost 50 percentage for the load balancer middlebox. These results suggest that in a high speed network, our design can stop the servers from getting saturated and allows the guests to process the packets close to the line rate. Thus we improve the overall I/O virtualization performance of the middleboxes.             
 
 %\noindent Virtualization has started becoming a boom in the market as corporate world wants to do more with less resources. Virtualization provides benefits like improvement of  overall infrastructure cost, overall management cost and eliminates the hardware vendor dependancy. We will discuss a type of virtualization which simplifies the deployment and management of network functions, that is Network Function Virtualization. NFV virtualizes the dedicated hardware network functions to a software network application which can run on standard x86 machines. These network functions are called middleboxes. We will discuss presence of the middleboxes in current data centres and why it is important to optimize the performance of middleboxes. When we talk about virtualization, hypervisor becomes the name of the game. We will define the term hypervisor and explain its role in virtualization in more detail. There are many techniques to host middleboxes on the physical machines in data centre networks. All the techniques have their own ups and downs.                             
 %We have come up with our own technique to efficiently host middleboxes on the physical machine. We named it as Mypervisor that is middlebox specialised hypervisor. Based on our study of middleboxes and hypervisors, we concluded that middlebox performance in data centres can still be optimized. Mypervisor offloads some middlebox functionality to the hypervisor to meet performance requirements. We proposed a design for Mypervisor and implemented it for a Wire middlebox. Wire Mypervisor will prove to be a stepping stone for implementation of a more complete Mypervisor.                
@@ -109,62 +171,88 @@
 %\endgroup
 \newpage
 %\bigskip
+\setcounter{page}{1}
+\pagenumbering{arabic}
 \chapter{Introduction}
-\noindent {One of the key factor in the rise of the Data center networking in recent years is, the core
-system infrastructure such as storage, network devices has become software-defined. Network Function Virtualization decouples the network applications from proprietary hardware and virtualize them. These network functions are usually referred as Middleboxes. To run middleboxes on virtual machines, we require a Virtual Machine Monitor or Hypervisor which allow multiple commodity virtual machines to share conventional hardware in a safe and resource managed manner. In the era of virtualization and Software Defined Networking, Data centres are being flooded with various middleboxes and we want to virtualize them efficiently without compromising the overall performance or resource utilization.}
-\section{Middleboxes and Hypervisors}
-By definition a middlebox is a networking function that transforms, inspects, filters or manipulates network traffic for some purpose other than packet forwarding.~\cite{MB} NFV has attracted many service providers to virtualize their network. Virtualized network functions would be located in those data centres along with other network nodes. According to a survey, number of middleboxes deployed in varying size data centres are on par with number of L3 routers and number of L2 switches.~\cite{DM} Wan optimizers, proxies, application layer gateways, load balancers, intrusion detection system, intrusion prevention system are widely used middleboxes in data centres. Middleboxes play an important role in meeting service level agreements(SLAs) with client. Traffic is normally routed through chain of such middleboxes. All the middleboxes perform some entry level task followed by specific middlebox function followed by packet forwarding. To improve middlebox performance, we can target hypervisor as in the transition from traditional network to NFV, hypervisor is still one component which operates in traditional manner.                        
+\noindent {One of the key factors in the rise of the data center networking in recent years is, the core system infrastructure such as storage, network devices have become software-defined. Various network functions such as firewall, load balancer, gateway, proxies were used to installed as hardware elements in the traditional networks. These network functions are usually referred as Middleboxes. Now, administrators use Network Function Virtualization which decouples the network functions from proprietary hardware and virtualize them. To run middleboxes on the virtual machines, we require a Virtual Machine Monitor or Hypervisor which allows multiple commodity virtual machines to share conventional hardware in a safe and resource managed manner. In the era of virtualization and Software Defined Networking, Data centres are being flooded with various middleboxes\cite{DM} and we want to virtualize them efficiently without compromising the overall performance or resource utilization.}
+\section{Middleboxes}
+By definition a middlebox~\cite{MB} is a networking function that transforms, inspects, filters or manipulates network traffic for some purpose other than packet forwarding. NFV has attracted many service providers to virtualize their data center networks. Middleboxes are crucial part of such data centre networks as only packet forwarding is not good enough to meet the customer requirements, other functionalities like Quality of Service/Quality of Experience, load balancing, security are needed to make customer experience complete. This fact is also supported by a survey done over 57 enterprise data centres, whose size varied from less than 1K hosts to more than 100K hosts.~\cite{DM} The survey shows that number of middleboxes deployed in data centres are on par with number of routers and number of switches in the data centre. WAN optimizers, proxies, application layer gateways, load balancers, intrusion detection system, intrusion prevention system are widely used middleboxes in the data centres. Middleboxes play an important role in meeting the service level agreements(SLAs) with the clients. All the middleboxes perform some entry level task followed by specific middlebox function followed by packet forwarding. Their presence in large number in data centres indicates that overall performance of a data centre is very much related to the performance of the middleboxes. %Hypervisor is still one component which operates mostly in traditional manner in the transition from traditional network to NFV.                         
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.4]{g1.pdf}
+\caption{MB presence in the data centres~\cite{DM}}
+\end{figure}
 
-The sole aim of virtualization is to run many virtual systems on a single physical system efficiently. Hypervisors are softwares that creates or destroys virtual machines and manages physical resources among them. Two different types of hypervisors, Bare metal hypervisor and Hosted hypervisors are widely used in the market. Bare metal hypervisor runs directly on the hardware and manages virtual machines. Hosted hypervisor runs as an application on the operating system, usually known as host operating system. Oracle VM Server for x86, Xen server, KVM, Hyper-v are examples of bare metal hypervisors. VmWare workstation/player, virtual box are example of hosted hypervisors. We will focus on Bare metal hypervisors (Type-1) as they are widely used in data centres. A hypervisor mainly provides virtual hard disk, virtual network interface card, and life cycle management facility to virtual machines. We will discuss what more a hypervisor can offer to middleboxes, apart from this traditional stuff. 
+\section{Hypervisors}
+The aim of virtualization is to run many virtual machines on a single physical machine efficiently. Hypervisors are softwares that create or destroy virtual machines and manages physical resources among them. Two different types of hypervisors are used for virtualization: Bare metal hypervisor and Hosted hypervisors. Bare metal hypervisor runs directly on the hardware and manages virtual machines. Hosted hypervisor runs as an application on the operating system, usually known as host operating system. Oracle VM Server for x86, Xen server, KVM, Hyper-v are examples of bare metal hypervisors. Vmware workstation/player, virtual box are example of hosted hypervisors. We will focus on Bare metal hypervisors (Type-1) as they are widely used in data centres. A hypervisor mainly provides virtual hard disk, virtual network interface card, and life cycle management facility to virtual machines. We will discuss what more a hypervisor can offer to middleboxes, apart from this traditional stuff. 
 \begin{figure}[h]
 \centering
 \includegraphics[scale = 0.8]{hyp.pdf}
 \caption{Different types of Hypervisor}
 \end{figure}  
-Mostly used hypervisors in data centre virtualization are vSphere from VMware, Xenserver from Citrix, hyper-v from Microsoft and KVM from Redhat. Different hypervisors are used as per the requirements of the data centre administrator. We will focus on Kernel Virtual Machine(KVM) as a hypervisor in our experiments. KVM virtualizes the processor and the memory of the system. QEMU is a 'Quick Emulator' which is used to arbitrate hardware resources such as disk and network interface card. QEMU is a type-2 hypervisor by itself, it executes the virtual CPU instruction using host operating system on the physical cpu. But when QEMU combines with KVM, the combination becomes type-1 hypervisor. In that combination, QEMU is used as a virtualizer, and it achieves near native performance by executing guests code directly on hardware. We have used virtio enabled KVM setup for experiments. Virtio is a standard for network device driver while transmitting or receiving a packet from/to that network device. In this case, network device driver just know that it is running in the virtualized environment.
+Mostly used hypervisors in data centre virtualization are vSphere from VMware, Xenserver from Citrix, hyper-v from Microsoft and KVM from Redhat. Different hypervisors are used as per the requirements of the data centre administrator. We will focus on Kernel Virtual Machine(KVM) as a hypervisor in our experiments. KVM virtualizes the processor and the memory of the system. QEMU is a 'Quick Emulator' which is used to arbitrate hardware resources such as disk and network interface card. QEMU is a type-2 hypervisor by itself, it executes the virtual CPU instruction using host operating system on the physical CPU. But when QEMU combines with KVM, the combination becomes type-1 hypervisor. In that combination, QEMU is used as a virtualizer, and it achieves near native performance by executing guests code directly on the hardware. 
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.45]{kq.pdf}
+\caption{KVM-QEMU combination virtualization}
+\end{figure} 
+%\section{Traditional Hypervisors}
+\section{Motivation}
+Virtualization aims to maximize the resource utilization at the cost of some added processing by the hypervisor for virtual machines. As we have seen earlier, Any virtual machine doing any I/O requires intervention from the hypervisor. A designated CPU core has to handle these interventions every time. After this, a designated CPU core handling a specific virtual machine will take care of the rest of the processing. On a high speed network when all the CPU cores are busy, the above mentioned processing takes toll on CPUs. In such a situation, somehow we need to reduce the CPU overhead to get maximum performance possible. Some hardware optimization techniques like Intel virtual machine device queue(VMDq)\cite{VMD}, Direct I/O\cite{Santos:2008:BGS:1404014.1404017}, SR-IOV\cite{5416637} exist to counter the intervention by hypervisor in high speed networks. These techniques improve network I/O to provide throughput close to the line rate. To enable these services dedicated hardwares are needed. Intel VMDq service is supported by only few high-end Intel Ethernet controller cards\cite{VMD}. Due to this fact, they face scalability issues. They also have portability issues. For example, SR-IOV binds the virtual machines to the physical machines. DPDK\cite{DPD} provides software based solution to the problem but it needs to modify the guest operating system and it requires DPDK libraries to be installed on the machine. These observations motivated us to come up with some hardware independent and easy to use solution which improves the overall network I/O for middlebox virtualization.                                 
+ 
+\section{Problem Description}        
+We suggest that when the hypervisor intervenes for the first time in the incoming packet processing, it should be intelligent enough to decide whether further processing by a virtual machine(middlebox) is required or not. A middlebox installed in the high speed network do not be require to process every incoming packet if the hypervisor does some pre-programmed processing to bypass the middlebox. By doing this, We aim at reducing the no. of interrupts to the CPU core serving the specific middlebox and also some processing for the first interrupt. Here, we propose a design for middlebox virtualization in which part of the middlebox functionality is offloaded to the hypervisor as shown in the figure-1.4.
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.6]{ps2.pdf}
+\caption{Offloaded middlebox functionalities inside the Hypervisor}
+\end{figure}
+  
+Part (a) of the figure-1.4 shows VM1 and VM2 processes the network traffic respectively for middlebox1 and middlebox2 which comes through the hypervisor. In part (b), we can see that some offloaded middlebox1/middlebox2 functionality reside in the hypervisor. As a result of that, a portion of the incoming traffic is processed at the hypervisor and only remaining traffic is forwarded to the middleboxes. In chapter 4 and 5, we will discuss the design and the implementation aspects of the proposed solution in detail.            
 
+
+\section{Organization Of The Work}
+\begin{enumerate}
+\item Explored various types of middleboxes and their presence in data centres. Explored virtualization and hypervisor. Specifically, explored KVM as a hypervisor in detail.
+\item Explored research done so far to optimize middlebox performance while running on physical machine and compared them based on different metrics. Built the problem definition based on the observations made in this study.
+\item Proposed a possible solution to solve the problem, designed different components of the solution and analysed the challenges faced.        
+\item Implemented part of widely used middleboxes like firewall, load balancer, implemented interface between a middlebox and a hypervisor for communication. Measured several performance metrics by doing experimental evaluation of the system.         
+\item Documented the work done so far, results achieved and the future work possible.           
+\end{enumerate}
+\section{Outline Of The Report}
+The report is organized in the following manner. In chapter 2, we will discuss several classifications of the middleboxes and network I/O path in detail. In chapter 3, we will discuss related work done in this field and compare them on several metrics to see how it relates to our approach. In chapter 4, we will discuss design of a possible solution, cost analysis of the suggested design. In chapter 5, we will discuss the implementation details for a possible solution, experimentation setup, results obtained and the challenges faced. At last in chapter 6, we will give conclusion and discuss some work which can be explored in the future.     
+
+\chapter{Background}
+\section{Network I/O Path In Virtualized Network}
+KVM is the virtualization infrastructure which transforms linux kernel into a hypervisor. KVM requires the processor to support hardware virtualization extension like Intel VT-x or AMD-V for x86 processors. To create, edit, start or stop KVM based virtual machines, GUI based tool named Virtual Machine Manager is available. 
+
+There is a concept of full-virtualization in which the hypervisor emulates actual physical devices like network interface cards for the guest. It allows us to virtualize any operating system we want. But research done in this area has proven that this implementation is inefficient as well as complex. There is a concept of para-virtualization in which the guest's device driver just knows that it is running in a virtual environment and cooperates with the hypervisor. It helps guests to achieve high network and disk performance. Virtio is a virtualization standard for network and disk device drivers which provides para-virtualization with KVM. We have used Virtio enabled KVM-QEMU combination for middlebox virtualization. 
 \begin{figure}[h]
 \centering
 \includegraphics[scale = 0.55]{ba.pdf}
 \caption{packet path from pNIC to middlebox}
 \end{figure}
 
-When a packet is received on the physical network interface card, it is hypervisor's duty to forward it to the specific middlebox hosted on that machine or vice versa. In our KVM setup, how this packet travels from the physical NIC to middlebox or viceversa is very important to understand before we move towards design of the solution. When a packet is received on pNIC, It is forwarded to the hypervisor bridge. Bridge forwards it to the tap interface for destination middlebox. Tap interface forwards it to vNIC. And then at last it is received by the middlebox. This is very brief description of the whole process.
-%\section{Traditional Hypervisors}
-\section{Motivation: why to focus on middleboxes?}
-Middleboxes are crucial part of data centre networks as only packet forwarding is not good enough to meet customer requirements, other functionalities like Quality of Service/Quality of Experience, load balancing, security are needed to make customer experience complete. This fact is also supported by a survey done over 57 enterprise data centres, whose size varied from less than 1K hosts to more than 100K hosts.~\cite{DM} The survey shows that number of middleboxes deployed in data centres are on par with number of routers and number of switches in the data centre.  
+When we create a virtual machine, we can configure which type of networking we want for that machine. We opt for bridged networking in our experiments. The above explains how packet reaches to middlebox from pNIC in this scenario. On a KVM virtio enabled linux physical machine, each VM(middlebox) will be configured with one vNIC. The VM will be exposed to the internet by pNIC of host. As shown in the figure above, a linux  bridge(virtual switch) associates the vNIC of a VM to pNIC of the host. VM's vNIC is associated to the virtual tap interface of the host and that tap interface is added to the linux bridge. On one of the interface of bridge, we have connected pNIC(eth0). Tap interfaces forwards the raw ethernet frames to virtual machines. This figure gives a high level view of how packets travel from pNIC to vNIC and vice versa.
+
+%When a packet is received on the physical network interface card, it is hypervisor's duty to forward it to the specific middlebox hosted on that machine or vice versa. In our KVM setup, how this packet travels from the physical NIC to middlebox or viceversa is very important to understand before we move towards the design of the solution. 
+
+When a packet is received on pNIC, It is forwarded to the hypervisor bridge. Bridge forwards it to the tap interface for destination middlebox. Tap interface forwards it to vNIC. We can consider vNIC as virtio network device. Receiveq and transmitq are the two mandatory virtqueues associated with the virtio network device. Receiveq consists empty buffers for receiving packets. Transmitq consists of empty buffers for outgoing packets in transmission order. Virtqueues reside in the guest memory. Each virqueue can support maximum 64K buffers at a time. As we can see in the figure, each virtqueue consists of three parts.
 \begin{figure}[h]
 \centering
-\includegraphics[scale = 0.4]{g1.pdf}
-\caption{MB presence in the data centres~\cite{DM}}
+\includegraphics[scale = 0.55]{vio.pdf}
+\caption{virtio network device architecture}
 \end{figure} 
-\section{Problem Description}        
-Virtualization aims to maximize the resource utilization at the cost of some added processing by the hypervisor for virtual machines. As we have seen earlier, Any virtual machine doing any I/O requires intervention from the hypervisor. A designated cpu core has to handle these interventions every time. After this, a designated cpu core handling a specific virtual machine will take care of the rest of the processing. On a high speed network when all the cpu cores are busy, the above mentioned processing takes toll on CPUs. In such a situation, somehow we need to reduce cpu overhead to get maximum performance possible. Some hardware optimization techniques like virtual machine device queue(VMDq), Direct I/O, SR-IOV exist to counter the intervention by hypervisor in high speed networks. But they are costly and they have scalability issues. 
-
-We suggest that when the hypervisor intervenes, it should be intelligent enough to decide whether further processing by a virtual machine is required or not. A middlebox installed in the high speed network do not require to process every incoming packet if hypervisor does some pre-programmed processing to bypass the middlebox. We aim to reduce no. of interrupts to the cpu core serving the specific middlebox and also some processing for first interrupt. Here, we propose a design for middlebox virtualization in which as per functionality of the middlebox, part of the middlebox functionality is offloaded to the hypervisor.
-\begin{figure}[h]
-\centering
-\includegraphics[scale = 0.435]{ps2.pdf}
-\caption{MB specific functionalities inside Hypervisor}
-\end{figure}  
-
-We will discuss the design in detail in chapter 4.           
-
-
-\section{Organization of the work}
 \begin{enumerate}
-\item Explored various types of middleboxes and their presence in data centres. Explored virtualization and hypervisor. Specifically, explored KVM as a hypervisor in detail.
-\item Explored research done so far to optimize middlebox performance while running on physical machine and compared them based on different metrics. Built the problem definition based on the observations made in this study.
-\item Proposed a possible solution to solve the problem, designed different components of the solution and analysed limitations of the model and the challenges faced.        
-\item Implemented part of widely used middleboxes like IP/Application layer firewall, IP load balancer, implemented interface between a middlebox and a hypervisor for communication and benchmarked its performance.      
-\item Documented the work done so far, results achieved and the future work possible.           
-\end{enumerate}
-\section{Outline of the report}
-The report is organized in the following manner. In chapter 2, we will discuss several classifications of the middleboxes in detail. In chapter 3, we will discuss related work done in this field and compare them on several metrics to see how it relates to our approach. In chapter 4, we will discuss design of a possible solution, cost analysis of the suggested design and challenges faced. In chapter 5, we will discuss the implementation details for a possible solution, experiment setup and results obtained. At last in chapter 6, we will give conclusion and discuss some work which can be explored in future.     
+\item \textbf{Descriptor table: }It keeps track of the buffers used by driver for the network device. Each descriptor contains physical address where the buffer starts, length of the buffer or buffer chain and next field to chain the buffers.
+\item \textbf{Available ring: }It keeps track of the descriptors, which driver is offering the device. It can only be written by driver and read by the device. 
+\item \textbf{Used ring: }It keeps track of the buffers returned by the device once it processes it. It is only written by the device and read by the driver.  
+\end{enumerate}                                
 
-\chapter{Background}
+Transmitq and receiveq of the devices are made up of above mentioned three components. In case of packet transmission, outgoing packet is added as a buffer to transmitq. Driver adds the descriptor table entry for the packet and also to available ring. Then driver notifies the device about new entry. Once the device is done with packet transmission, it makes the buffer entry to used ring. So, it again returns the buffer to pool of empty buffers. In case of receiving the packet, packet is copied into a buffer in the receiveq and that is the only difference between transmitting the packet and receiving the packet from the device. Once device processes the packet, it makes buffer entry to used ring to make it free. Now we exactly know how a packet travels from the physical NIC to a middlebox.
 \section{Middlebox Examples}
-Some of the widely used middleboxes among the data centres are described here.
+\subsubsection{General Middleboxes}
+Based on a survey\cite{DM} done over the data center networks, which were containing varying number of hosts, some of the widely used middleboxes are as described below.
 \begin{figure}[h]
 \centering
 \includegraphics[scale = 0.5]{g2.pdf}
@@ -182,122 +270,138 @@ Some of the widely used middleboxes among the data centres are described here.
 \item \textbf{VPN :}A virtual private network establishes a private network across public networks. It allows user to send and receive data across public networks maintaining the policy and security enforced by the private network.  
 \item \textbf{Wire: }A simple middlebox which sends packets from its input interface to output interface. It is generally used to give a performance baseline.            
 \end{itemize}
-\section{Middlebox classification}
-We have classified the middleboxes based on several parameters to test our proposed  solution for all the types of middleboxes.
-\subsection{Based on MB functionality}
-A middlebox function can be any networking function apart from the routing function.  
-\subsubsection{General MBs}
-All the middlebox examples discussed in section 2.1 are general network functions which can be used in any of the network as per the requirements. They are usually deployed at the entry point of the networks before actual processing starts. Some examples are firewalls, gateways, load balancers, proxies, intrusion detection/prevention system, traffic shaper.
-\subsubsection{Application specific MBs}
+\subsubsection{Application Specific Middleboxes}
 Some network functions can be application specific. Those middlebox functions are defined as small modules of the application which results from modularization of the application. Below are some of the examples of such middleboxes.   
 \begin{itemize}
 \item \textbf{IP Multimedia Subsystem: }It is an architectural framework to standardize the methods to deliver IP multimedia services to the user mobiles. We will describe several functions which belongs to IPMS architecture. HSS(Home Subscriber Server) is a function which contains master user database and its functionality involves authentication and authorization of the user. SLF(Subscriber Location Function) is responsible to map user address when multiple HSSs are used.
 \item \textbf{GSM network architecture: }GSM architecture includes several components such as base-station, controller, MSC, AuC, HLR, VLR etc. VLR(Visitor Location Register) contains selected information from the HLR that enables the selected services for the individual subscriber to be provided. It can be implemented as a separate entity. EIR(Equipment Identity Register) decides whether a given mobile equipment maybe allowed onto the network. SMSG is the gateway for messages being sent to MEs.    
 \item \textbf{EPC architecture: }The Evolved Packet Core is the latest evolution of the 3GPP core network architecture. It contains four network elements: the serving GW, the PDN GW, the MME and the HSS. HSS is same as what we have seen in the IPMS architecture. The gateways transport the IP data traffic between the user equipment(UE) and the external networks. 	 	 
 \end{itemize} 
-\subsection{Based on packet processing}
-Middleboxes can be classified based on how they process the packets to take some action on it. They process the packets at different layers and then take the specified action. 
-\subsubsection{Packet header inspection MBs}
-Middleboxes belong to this category only inspects some specific field of the packet header and then takes appropriate action specified by the administrator. They are just decision making middleboxes, which just decide whether to drop a packet or to forward it further. Some examples are IP firewall, network monitors, gateways.     
-\subsubsection{Packet header modification MBs}
-Middleboxes belong to this category modifies some specific field of the packet header and then forwards the packet. It requires more processing compare to the header inspection MBs. Some examples are IP load balancer, NAT, proxies. 
-\subsubsection{Packet body inspection MBs}
-Middleboxes belong to this category inspects the body of the packet and then takes appropriate action specified by the administrator. They are also decision making middleboxes, which just decide whether to drop a packet or to forward it further. Some examples are application layer firewall, traffic shaper, intrusion detection/prevention system.
-\subsubsection{Packet body modification MBs}
-Middleboxes belong to this category modifies the body of the packet and then forwards the packet. It requires more processing compare to the body inspection MBs. Some examples are data compression middleboxes, proxies.
+\section{Middlebox Classification}
+There is no bound on the middlebox functionality. Hence there is no bound on the number of middleboxes that can exist. Based on the application requirements, any sub module of the application can run as a middlebox. We aim to propose a solution which covers all the middleboxes. This classification helps us to do that as it groups the middleboxes based on how they process the packets. Any middlebox can be classified in one of the following category. A middlebox which,
+\begin{itemize}
+\item Category 1: Inspects the packet header
+\item Category 2: Modifies the packet header
+\item Category 3: Inspects the packet body
+\item Category 4: Modifies the packet body
+\end{itemize}  
+We classify the general middleboxes mentioned in the previous section in these four categories.
+\begin{table}[H]
+\centering
+\begin{tabular}{ | C{3.58cm} | C{3.58cm} | C{3.58cm} | C{3.58cm} | }
+\hline
+{\textbf {Category 1}} & {\textbf {Category 2}} & {\textbf {Category 3}} & {\textbf {Category 4}}\\ %\tabularnewline
+\hline
+\hline
+{IP firewall, network monitors, gateways} & {IP load balancer, NAT, protocol spoofing} & {App. firewall, traffic shaper, IDS/IPS} & {Data compression, proxies}\\ %\tabularnewline
+\hline
+\end{tabular}
+\caption{Middlebox classification based on the packet processing}
+\end{table} 
+%\subsubsection{Packet header inspection middleboxes}
+%Middleboxes belong to this category only inspects some specific field of the packet header and then takes appropriate action specified by the administrator. They are just decision making middleboxes, which just decide whether to drop a packet or to forward it further. Some examples are IP firewall, network monitors, gateways.     
+%\subsubsection{Packet header modification middleboxes}
+%Middleboxes belong to this category modifies some specific field of the packet header and then forwards the packet. It requires more processing compare to the header inspection MBs. Some examples are IP load balancer, NAT, proxies. 
+%\subsubsection{Packet body inspection middleboxes}
+%Middleboxes belong to this category inspects the body of the packet and then takes appropriate action specified by the administrator. They are also decision making middleboxes, which just decide whether to drop a packet or to forward it further. Some examples are application layer firewall, traffic shaper, intrusion detection/prevention system.
+%\subsubsection{Packet body modification middleboxes}
+%Middleboxes belong to this category modifies the body of the packet and then forwards the packet. It requires more processing compare to the body inspection MBs. Some examples are data compression middleboxes, proxies.
 
 \bigskip
-Our model can be applied to any of the middlebox from any category. Second classification is exhaustive classification for middleboxes. The procedure to offload some middlebox functionality remains same for all the middleboxes belonging to the same category. We have experimented on general middleboxes which inspects or modifies the packet header. We will see it in detail in chapter 5.   
+This classification is exhaustive classification for the middleboxes. Approach for our proposed solution remains same for all the middleboxes belonging to the same category. Thus we can cover the whole range of middleboxes. We have experimented for category 1 and category 2 middleboxes. We will see it in detail in chapter 5.   
 
 
 \chapter{Related Work}
 \noindent Over the past few years, much work has been done in the area of the customization of the guest operating system, customization of the hypervisors which hosts the middleboxes and customization of the underlying hardware to improve the middlebox performance. It is very important to understand the work done so far, before we move ahead with our proposed solution. We can classify the techniques studied so far into three categories.
 \begin{itemize}
-\item MB Operating System optimizations
-\item MB Hypervisor optimizations
-\item MB Hardware assisted optimizations
+\item Middlebox Operating System optimizations
+\item Middlebox Hypervisor optimizations
+\item Middlebox Hardware assisted optimizations
 \end{itemize}
 We will briefly discuss some techniques which fall inside these categories. And we will also state how it relates to or contrast with our proposed solution.
-\section{MB Operating System optimizations}
-ClickOS\cite{R1} proposes replacement of traditional guest operating system with some optimized, light weight operating system. Linux as a guest operating system in VMs is actually over provisioning for middlebox applications. Middlebox uses very few operating system services in addition to network connectivity. Traditional Linux operating system takes around 128MB space on guest VM and also takes around 5 second time to boot, that is very slow in context of middlebox setup time. So, they came up with minimalistic operating system for virtual machines. ClickOS virtual machines which runs MiniOS are very small in size that is only around 5 MB and also very fast to setup, only 30 msec boot time. MiniOS has a single address space, no kernel/user space separation and a cooperative scheduler. Basically ClickOS are single core machines. They have used Xen as a hypervisor for experiments. It also improves scalability of the middleboxes. With traditional full fledged OS running on the VMs, number of tenants supported on a physical machine are very small. But with MiniOs running on ClickOS machine the number increases drastically. This technique improves the scalability and the setup time for middleboxes but it does not address redundancy among middlebox functionalities. Though it can create new ClickOS VM quickly for scaling, ClickOS VMs do not have symmetric multiprocessing support.             
+\section{Middlebox Operating System Optimizations}
 
-OSv\cite{R2} also offeres optimized operating system for middleboxes in cloud environment. VMs in cloud usually runs linux as an OS. When we say middlebox is running on a VM, it often means that only single application (middlebox application) runs on that VM. In this case, managing multiple VMs on hypervisor only means that managing multiple applications on the hypervisor. Hypervisor provides features like isolation among VMs, hardware abstraction, memory management. In this case hypervisor almost act as an OS for middlebox applications. So, when we use traditional operating system to run middlebox applications, the above mentioned features become redundant. It affects overall performance of the host machine. OSv is a guest OS specially designed to run a single application on a VM in the cloud environment. It has very small OS image, dedicates more memory to the application and lesser boot time. OSv supports various hypervisors and processors with minimal change in architecture specific code. For 64-bit x86 processors, it supports KVM, Xen, VMware and Virtual Box hypervisors. It also improves scalability of middleboxes just like ClickOS. But it supports Symmetric multi-processing which is an advantage over ClickOS. It also gives throughput and latency improvement for middleboxes.
+ClickOS\cite{179771} proposes replacement of traditional guest operating system with some optimized, light weight o	perating system. Linux as a guest operating system in VMs is actually over provisioning for middlebox applications. Middlebox uses very few operating system services in addition to network connectivity. Traditional Linux operating system takes around 128MB space on guest VM and also takes around 5 second time to boot, that is very slow in context of middlebox setup time. So, they came up with minimalistic operating system for virtual machines. ClickOS virtual machines which runs MiniOS are very small in size that is only around 5 MB and also very fast to setup, only 30 msec boot time. MiniOS has a single address space, no kernel/user space separation and a cooperative scheduler. Basically ClickOS are single core machines. They have used Xen as a hypervisor for experiments. It also improves scalability of the middleboxes. With traditional full fledged OS running on the VMs, number of tenants supported on a physical machine are very small. But with MiniOs running on ClickOS machine the number increases drastically. This technique improves the scalability and the setup time for middleboxes but it does not address redundancy among middlebox functionalities. Though it can create new ClickOS VM quickly for scaling, ClickOS VMs do not have symmetric multiprocessing support.             
 
-Unikernels\cite{R3} also provides light weight machines to deploy middlebox applications in cloud environment. Unikernels are single purpose appliances, they strips away functionalities of general purpose system at compile time. It is inherently suitable for middleboxes. It takes into consideration the idea of library OS, in which an application links against separate OS service libraries and unused services from the library are eliminated from the final image by the compiler. For an example, virtual machine image of a DNS server can be as small as 200KB. Mirage OS[*] is an example of such a library OS. It is written in OCaml, a functional programming language and it runs on the Xen hypervisor[*]. It also improves scalability and setup latency for the middleboxes.                    
-\section{MB Hypervisor optimizations}
-Container\cite{R4} modifies the hypervisor to eliminate redundant features among the hypervisor and the guest OS. Actually it drops the idea of traditional hypervisor in virtualization. It modifies the host operating system to support isolated execution environments for applications while running on the same kernel. It improves resource utilization among guests and lowers per guest overhead. It also improves the overall performance of the system. I/O related workload, server type workload performs better on container based system compared to hypervisor based system. It also scales well compared to hypervisor setup. But still most of the data centres prefer to use hypervior based system. Hypervisor based system can support multiple kernels but by design container based system can not support the same. Container also does not have support for VM migration. Hypervisors are the industry standard for virtualization.       
+OSv\cite{184011} also offeres optimized operating system for middleboxes in cloud environment. VMs in cloud usually runs linux as an OS. When we say middlebox is running on a VM, it often means that only single application (middlebox application) runs on that VM. In this case, managing multiple VMs on hypervisor only means that managing multiple applications on the hypervisor. Hypervisor provides features like isolation among VMs, hardware abstraction, memory management. In this case hypervisor almost act as an OS for middlebox applications. So, when we use traditional operating system to run middlebox applications, the above mentioned features become redundant. It affects overall performance of the host machine. OSv is a guest OS specially designed to run a single application on a VM in the cloud environment. It has very small OS image, dedicates more memory to the application and lesser boot time. OSv supports various hypervisors and processors with minimal change in architecture specific code. For 64-bit x86 processors, it supports KVM, Xen, VMware and Virtual Box hypervisors. It also improves scalability of middleboxes just like ClickOS. But it supports Symmetric multi-processing which is an advantage over ClickOS. It also gives throughput and latency improvement for middleboxes.
 
-CoVisor\cite{R5} is a hypervisor, which uses a completely different approach to host middlebox applications in a software defined network. It uses basic concept of network hypervisor that is to manage virtual networks on a physical network. Along with usual middlebox hosting challenges, it deals with some SDN specific challenges as well. For example, middlebox applications used by different vendors may be built by using different SDN APIs. Covisor makes it possible to run any middlebox irrespective of what SDN API is used. Covisor provides facility to assemble multiple middlebox applications as per the administrator configuration. Each middlebox can be used independently, in parallel or sequential with other middlebox, or conditionally. Administrator can provide abstract virtual topology for each middlebox. It restricts each middlebox's view of the physical network. Configuration file provided by administrator includes policies to assemble middleboxes, mapping for each middlebox's virtual network components to actual physical components and access control limitation for each middlebox. Covisor was tested with respect to its composition efiiciency and devirtualization efficiency. It gives satisfactory results on metrics like policy compilation time, Rule updation time and total devirtualization time. Covisor is still in development phase and as most of the data centres use traditional hypervisors, switching to Covisor needs lots of modification to existing data centre architecture. 
+Unikernels\cite{Madhavapeddy:2013:ULO:2451116.2451167} also provides light weight machines to deploy middlebox applications in cloud environment. Unikernels are single purpose appliances, they cut down functionalities of general purpose system at compile time. It is inherently suitable for middleboxes. It takes into consideration the idea of library OS, in which an application links against separate OS service libraries and unused services from the library are eliminated from the final image by the compiler. For an example, virtual machine image of a DNS server can be as small as 200KB. Mirage OS\cite{MR} is an example of such a library OS. It is written in OCaml, a functional programming language and it runs on the Xen hypervisor\cite{XH}. It also improves scalability and setup latency for the middleboxes.                    
+\section{Middlebox Hypervisor Optimizations}
 
-We already discussed ClickOS\cite{R1} phase-I in the first section. ClickOS phase-II falls under this section. ClickOS authors ran ClickOS machines on Xen hypervisor for experiments. They modified the Xen hypervisor to achieve throughput and better resource utilization. In traditional Xen hypervisor networking, when a packet is received on physical NIC, it traverses through network driver(dom0), software switch(dom0), virtual interface(dom0), netback driver(dom0) and netfront driver(guest machine) before getting processed by a middlebox. ClickOS technique modifies memory grant mechanism, netback driver, software switch and netfront driver to increase the middlebox throughput. Modified version of Xen is still not capable of handling a chain of middleboxes. Longer the chain is, lower the throughput. Even after all the modifications, hypercalls done by Xen for each packet transmission remains the bottleneck in this case.            
-\section{MB Hardware assisted optimizations}
-Virtual Machine Device queue (VMDq) is part of Intel Virtualization Technology\cite{VMD} which improves high speed network performance and reduces cpu utilization. As packets are received on the network adapter, a layer 2 classifier in the network adapter determines for which virtual machine each packet is destined for based on the MAC address and VLAN tags. The hypervisor's bridge just route the packet to the specific VM,  avoiding the work of sorting every incoming packet. it focuses on the receive side network I/O to reduce the cpu utilization. Without VMDq the receive only throughput on the 10Gbps line was 4 Gbps. Experiments show that with VMDq, throughput became more than double which is 9.2 Gbps. But this feature is hardware dependent and supported by only some of the ethernet controller cards. This feature is available only in Intel 82575 Gigabit Ethernet Controller and Intel 82598 10 Gigabit ethernet controller. It also requires some hypervisor enabling. It is costly and it also has scalability issue.
+Container\cite{Soltesz:2007:COS:1272996.1273025} modifies the hypervisor to eliminate redundant features among the hypervisor and the guest OS. Actually it drops the idea of traditional hypervisor in virtualization. It modifies the host operating system to support isolated execution environments for applications while running on the same kernel. It improves resource utilization among guests and lowers per guest overhead. It also improves the overall performance of the system. I/O related workload, server type workload performs better on container based system compared to hypervisor based system. It also scales well compared to hypervisor setup. But still most of the data centres prefer to use hypervior based system. Hypervisor based system can support multiple kernels but by design container based system can not support the same. Container also does not have support for VM migration. Hypervisors are the industry standard for virtualization.       
 
-Direct I/O\cite{DIO}, is a technique in which a hardware device supports multiple logical interfaces. Guest virtual machines can bypass the virtualization layer and access the logical interfaces securely. It gives cpu performance close to the cpu performance without virtualization. But direct I/O differs from basic dedicated driver model and lacks the key advantages of it. It avoids full support for guest VM transparent services like live migration and traffic monitoring. In order to enable these services, additional support in the hardware device required. Direct I/O model is also difficult to apply to virtual appliance models of software distribution which rely on the ability to execute on the arbitrary hardware platforms. For this direct I/O has to include device drivers for a large variety of devices which increases the complexity and maintainability.
+CoVisor\cite{188954} is a hypervisor, which uses a completely different approach to host middlebox applications in a software defined network. It uses basic concept of network hypervisor that is to manage virtual networks on a physical network. Along with usual middlebox hosting challenges, it deals with some SDN specific challenges as well. For example, middlebox applications used by different vendors may be built by using different SDN APIs. Covisor makes it possible to run any middlebox irrespective of what SDN API is used. Covisor provides facility to assemble multiple middlebox applications as per the administrator configuration. Each middlebox can be used independently, in parallel or sequential with other middlebox, or conditionally. Administrator can provide abstract virtual topology for each middlebox. It restricts each middlebox's view of the physical network. Configuration file provided by administrator includes policies to assemble middleboxes, mapping for each middlebox's virtual network components to actual physical components and access control limitation for each middlebox. Covisor was tested with respect to its composition efiiciency and devirtualization efficiency. It gives satisfactory results on metrics like policy compilation time, Rule updation time and total devirtualization time. Covisor is still in development phase and as most of the data centres use traditional hypervisors, switching to Covisor needs lots of modification to existing data centre architecture. 
 
-Single Root I/O virtualization(SR-IOV)\cite{SR} aims at removing major Virtual Machine Manager intervention for performance data movement such as the packet classification and address translation. SR-IOV is ancestor of Direct I/O which offloads memory protection and address translation using IOMMU. A device which supports SR-IOV can create multiple light weight instances of PCI function entities, also known as Virtual Functions(VFs). Each VF can be assigned to guest for direct access but still shares the major device resources. General architecture of SR-IOV devices contains a VF driver, a PF driver and an SR-IOV manager. The VF driver runs in the guest OS, the PF driver runs in host OS to manage PF and the SR-IOV manager in VMM. Now communication between them goes through the SR-IOV manager which makes this design independent of VMM. SR-IOV provides hypervisor bypass by attaching a VF to VM and sharing a single physical NIC. But it requires hardware support for achieving the goal. VM portability is also an issue with SR-IOV supported devices. The hypervisor should be capable of moving VMs between SR-IOV and non SR-IOV platforms in case of VM migration from one server to another. A server receiving traffic on switch ports has no way to distinguish the virtual function traffic. It may result in switching problem or some confusing situation.\cite{SR1}\cite{SR2} 
+We already discussed ClickOS\cite{179771} phase-I in the first section. ClickOS phase-II falls under this section. ClickOS authors ran ClickOS machines on Xen hypervisor for experiments. They modified the Xen hypervisor to achieve throughput and better resource utilization. In traditional Xen hypervisor networking, when a packet is received on physical NIC, it traverses through network driver(dom0), software switch(dom0), virtual interface(dom0), netback driver(dom0) and netfront driver(guest machine) before getting processed by a middlebox. ClickOS technique modifies memory grant mechanism, netback driver, software switch and netfront driver to increase the middlebox throughput. Modified version of Xen is still not capable of handling a chain of middleboxes. Longer the chain is, lower the throughput. Even after all the modifications, hypercalls done by Xen for each packet transmission remains the bottleneck in this case.            
+\section{Middlebox Hardware Assisted Optimizations}
+Virtual Machine Device queue (VMDq)\cite{VMD} is part of Intel Virtualization Technology which improves high speed network performance and reduces CPU utilization. As packets are received on the network adapter, a layer 2 classifier in the network adapter determines for which virtual machine each packet is destined for based on the MAC address and VLAN tags. The hypervisor's bridge just route the packet to the specific VM,  avoiding the work of sorting every incoming packet. it focuses on the receive side network I/O to reduce the CPU utilization. Without VMDq the receive only throughput on the 10Gbps line was 4 Gbps. Experiments show that with VMDq, throughput became more than double which is 9.2 Gbps. But this feature is hardware dependent and supported by only some of the ethernet controller cards. This feature is available only in Intel 82575 Gigabit Ethernet Controller and Intel 82598 10 Gigabit ethernet controller. It also requires some hypervisor enabling. It is costly and it also has scalability issue.
+
+Direct I/O\cite{Santos:2008:BGS:1404014.1404017}, is a technique in which a hardware device supports multiple logical interfaces. Guest virtual machines can bypass the virtualization layer and access the logical interfaces securely. It gives CPU performance close to the CPU performance without virtualization. But direct I/O differs from basic dedicated driver model and lacks the key advantages of it. It avoids full support for guest VM transparent services like live migration and traffic monitoring. In order to enable these services, additional support in the hardware device required. Direct I/O model is also difficult to apply to virtual appliance models of software distribution which rely on the ability to execute on the arbitrary hardware platforms. For this direct I/O has to include device drivers for a large variety of devices which increases the complexity and maintainability.
+
+Single Root I/O virtualization(SR-IOV)\cite{5416637} aims at removing major Virtual Machine Manager intervention for performance data movement such as the packet classification and address translation. SR-IOV is ancestor of Direct I/O which offloads memory protection and address translation using IOMMU. A device which supports SR-IOV can create multiple light weight instances of PCI function entities, also known as Virtual Functions(VFs). Each VF can be assigned to guest for direct access but still shares the major device resources. General architecture of SR-IOV devices contains a VF driver, a PF driver and an SR-IOV manager. The VF driver runs in the guest OS, the PF driver runs in host OS to manage PF and the SR-IOV manager in VMM. Now communication between them goes through the SR-IOV manager which makes this design independent of VMM. SR-IOV provides hypervisor bypass by attaching a VF to VM and sharing a single physical NIC. But it requires hardware support for achieving the goal. VM portability is also an issue with SR-IOV supported devices. The hypervisor should be capable of moving VMs between SR-IOV and non SR-IOV platforms in case of VM migration from one server to another. A server receiving traffic on switch ports has no way to distinguish the virtual function traffic. It may result in switching problem or some confusing situation.\cite{SR1}\cite{SR2} 
 
    	                       
-\section{Comparison of all the approaches}
-Our goal is to achieve performance improvement for the middleboxes runnning on the physical machine in the virtualized environment. Performance of the middleboxes is a very abstact term. Based on the analysis of above mentioned techniques,  We can narrow it down to several metrics. Let's compare broad categories of the middlebox optimization based on the metrics like middlebox setup latency, scalability, multiprocessing support, processor utilization, redundancy among hypervisor and guest os, throughput etc. [Table - 3.1]        
+\section{Comparison Of All The Approaches}
+Our goal is to achieve performance improvement for the middleboxes runnning on the physical machine in the virtualized environment. Performance of the middleboxes is a very abstact term. Based on the analysis of above mentioned techniques,  We can narrow it down to several metrics. Let's compare broad categories of the middlebox optimization techniques with our approach based on the metrics like middlebox setup latency, scalability, processor utilization, throughput and packet processing time. [Table - 3.1]        
 
-We can observe that solutions from each category improves on some of the metrics. They do not affect other metrics. MB OS optimizations category solutions improves middlebox setup latency and scalability. They do not focus on improving metrics like throughput, processor utilization for the middlebox host. MB hypervisor optimizations category solutions improves on metrics like throughput and scalability of the middleboxes. They do not improve on metrics like packet processing time by the middleboxes. MB hardware assisted optimizations category solutions offer gains on throughput and cpu utilization. But they do not improve on scalability and portability of VMs.       
-
-Our proposed solution is a combination of MB operating system and hypervisor optimization categories. Our technique focuses on improvement of the performance metrics like cpu utilization, throughput, packet processing time without affecting scalability or portability of VMs.
+We can observe that solutions from each category improves on some of the metrics. They do not affect other metrics. Middlebox OS optimizations category solutions improves middlebox setup latency and scalability. They do not focus on improving metrics like throughput, processor utilization for the middlebox host. Middlebox hypervisor optimizations category solutions improves on metrics like throughput and scalability of the middleboxes. They do not improve on metrics like packet processing time by the middleboxes. Middlebox hardware assisted optimizations category solutions offer gains on throughput and CPU utilization. But they affect the scalability and the portability of the VMs. Our proposed solution is a combination of middlebox operating system and hypervisor optimization categories. Our technique focuses on improvement of the performance metrics like CPU utilization, throughput, packet processing time without affecting scalability or portability of VMs.
 
 \begin{table}[H]
 \centering
-\begin{tabular}{ | L{6.0cm} | C{2.5cm} | C{2.5cm} | C{2.5cm} | }
+\begin{tabular}{ | L{4cm} | L{10.3cm} | }
 \hline
-{\textbf {Metric}} & {\textbf {MB OS optimizations}} & {\textbf {MB HYP optimizations}} & {\textbf {MB HW assisted optimizations}}\\ %\tabularnewline
+{\textbf {Category}} & {\textbf {Metrics}}\\ %\tabularnewline
 \hline
 \hline
-{Middlebox setup latency} & {yes} & {no} & {no} \\ %\tabularnewline
+{Middlebox Operating System optimizations} & {middlebox set up latency, scalability} \\ %\tabularnewline
 \hline
-{Scalability}&{yes}&{yes}&{no}\\ %\tabularnewline
+{Middlebox Hypervisor optimizations}&{scalability, throughput, packet processing time}\\ %\tabularnewline
 \hline
-{Multiprocessing support}&{no}&{yes}&{no}\\ %\tabularnewline
+{Middlebox Hardware Assisted optimizations}&{throughput, packet processing time, CPU utilization}\\ %\tabularnewline
 \hline
-{Throughput}&{no}&{yes}&{yes}\\ %\tabularnewline
+{Our Approach}&{packet processing time, CPU utilization, throughput, hardware/software platform independent}\\
 \hline
-{Packet processing time}&{no}&{yes}&{yes}\\ %\tabularnewline
-\hline
-{Redundancy among hypervisor and guest operating system}&{no}&{yes}&{yes}\\ %\tabularnewline
-\hline
-{Reducing the hypervisor intervention} & {no} & {yes} & {yes} \\ %\tabularnewline
-\hline
-
 \end{tabular}
-\caption{Comparison Table}
+\caption{Comparision between different I/O virtualization techniques for middleboxes}
 \end{table}
-
 \bigskip
 In later chapters, we will see proposed design of our solution, implementation part and cost analysis of the proposed scheme. We will also discuss different challenges faced throughout the process.   
 
-\chapter{Design of MB specialized Hypervisor}
-In this chapter, we will discuss how to provide such intelligence to the hypervisor in order to bypass the actual middlebox processing to reduce the cpu processing overhead and to improve the packet processing time. We will also discuss several metrics to be observed in order to make this design worthy for a virtualized middlebox. 
+\chapter{Design of Middlebox Specific Hypervisor Extensions}
+In this chapter, we will discuss how to provide such intelligence to the hypervisor in order to bypass the actual middlebox processing to reduce the CPU processing overhead and to improve the packet processing time. We will also discuss several metrics to be observed in order to make this design worthy for a virtualized middlebox. 
 \section{Overall Design}
-As per definition, middlebox performs a specific network function and in case of virtualized middlebox, network function is an application running on a virtual machine. We want to execute a part of the middlebox functionality into the hypervisor. First task is to find a point in the hypervisor where we can fit in this functionality. It should be a point from where all the network traffic passes. Virtual bridge in the hypervisor in one such point. All the packets arrive at the bridge and then sorting is performed to forward each packet to the destination middlebox. In the bridge processing when sorting is done, we also perform the offloaded middlebox functionality and take appropriate action on the packet. Middlebox should inform the hypervisor about which functionality it wants to offload. Middlebox should also be able to dynamically inform the hypervisor about change in its state which may effect the processing of the offloaded functionality. Hypervisor also needs to maintain updated state of the middlebox in order to execute specific offloaded functionality. We have developed an interface between a VM and a hypervisor using some available POSIX shared memory mechanism. The interface accepts several kind of commands from the middlebox and act on the middlebox state stored on the hypervisor accordingly. Thus the proposed design requires a hook to be added in the packet processing in the hypervisor, an interface for communication on the hypervisor and the middlebox and the state of the middlebox to be stored on the hypervisor. Figure-4.1 represents the overall design we just discussed.
+As per definition, middlebox performs a specific network function and in case of virtualized middlebox, network function is an application running on a virtual machine. We want to execute a part of the middlebox functionality into the hypervisor. We need to design three components in order to do that. First is the way in which the middlebox conveys the hypervisor, what to offload. Second is where to execute the offloaded functionality in the hypervisor. Third is, how to execute the offloaded functionality. Let us discuss them in detail.   
+\begin{enumerate}      
+\item Communication Between a Middlebox And a Hypervisor: \\ 
+Middlebox should inform the hypervisor about which functionality it wants to offload. Middlebox should also be able to dynamically inform the hypervisor about the change in its state. We have developed an interface between a VM and a hypervisor using some available POSIX shared memory mechanism. The interface accepts several kind of commands from the middlebox and updates the middlebox state stored on the hypervisor accordingly. 
+
+\item Hook In The Hypervisor To Execute The Offloaded Functionality: \\
+Second task is to find a point in the hypervisor where we can fit in this functionality. It should be a point from where all the network traffic passes. Virtual bridge in the hypervisor in one such point. All the packets arrive at the bridge and then sorting is performed to forward each packet to the destination middlebox. In the bridge processing when sorting is done, we also execute the offloaded functionality. Thus we bypass the middlebox processing on the guest. 
+
+\item Execution of The Offloaded Functionality: \\ 
+Each offloaded middlebox functionality is implemented as a kernel module in the hypervisor and for each of them, respective middlebox state is stored on the hypervisor. Whenever a packet arrives for the middlebox with the offloaded functionality, hypervisor uses this stored state to take an appropriate action on the packet. The hypervisor always maintains the updated state of the middlebox in order to execute the offloaded functionality correctly. 
+\end{enumerate}
+Thus the proposed design requires a hook to be added in the packet processing in the hypervisor, an interface for communication between the middlebox and the hypervisor and the state of the middlebox to be stored on the hypervisor. Figure-4.1 represents the overall design we just discussed.
 \begin{figure}[h]
 \centering
-\includegraphics[scale = 0.7]{overall_design.pdf}
-\caption{Design of MB specialized hypervisor}
+\includegraphics[scale = 0.65]{overall_design.png}
+\caption{Design Of Middlebox Specialized Hypervisor}
 \end{figure}   
             
 \section{Implementation}
 We will describe each component shown in the figure-4.1 in detail. We will discuss implementation details of each component and interconnection between the components.
-\subsection{Interface between a MB and the Hypervisor}
-\subsubsection{Shared memory}
-We have used ivshmem, a QEMU virtual PCI device to share space between a middlebox and the hypervisor for communication. It is fairly simple to use\cite{IV}. The guest OS can access a POSIX SHM region on the host through the ivshmem device. It emulates memory mapped I/O access on a physical device, the host SHM region appears as a MMIO region to the guest OS. We can configure this device on QEMU command to fire a VM.
-$$\$ qemu-system-x86\_64\ (...)\ -device\ ivshmem,shm=ivshmem1,size=1$$    
-Here, ivshm1 is the name of the POSIX SHM object to use as the shared memory. It is /dev/shm/ivshmem1 here. The size parameter defines size of the POSIX SHM object in MB. It must be a power of two as a restriction of PCI memory regions. We have used the PCI device driver developed by Siro Mugabi\cite{IV} to write on the shared memory from a MB.
-\subsubsection{Guest interface}
+%\subsection{Interface between a Middlebox and the Hypervisor}
+\subsection{Shared Memory}
+We have used ivshmem\cite{IV}, a QEMU virtual PCI device to share space between a middlebox and the hypervisor for communication. It is fairly simple to use\cite{IV}. The guest OS can access a POSIX SHM region on the host through the ivshmem device. It emulates memory mapped I/O access on a physical device, the host SHM region appears as a MMIO region to the guest OS. We can configure this device in the QEMU command to fire a VM.
+$$\$ qemu-system-x86\_64\ ....\ -device\ ivshmem,shm=ivshmem1,size=2$$    
+Here, ivshm1 is the name of the POSIX SHM object to use as the shared memory. It is /dev/shm/ivshmem1 in above example. The size parameter defines size of the POSIX SHM object in MB. It must be a power of two as a restriction of PCI memory regions. We have used the PCI device driver developed by Siro Mugabi\cite{IV} to write on the shared memory from a MB.
+\subsection{Middlebox Side (Guest) Interface}
 On the guest side, we will first install the ivshmem driver module, ivshmem\_driver. Then, we will create a helper binary file for reading / writing into the POSIX shared memory. We can use simple commands like, \\
 $./a.out\ -r$, to read from the shared memory. \\
 $./a.out\ -w\ "@hello@"$, to write hello to the shared memory \\
 $./a.out --help$, to get more help about all the commands. \\
-We have used "@-@" as the separators to parse a specific command from the shared memory. In case, a middlebox wants convey anything to the hypervisor, it does so by writing that information on the shared memory embedded within @s as shown above.   
-\subsubsection{Host interface}
+We have used "@-@" as the separators to parse a specific command from the shared memory. In case, a middlebox wants to convey anything to the hypervisor, it does so by writing that information on the shared memory embedded within @s as shown above.   
+\subsection{Hypervisor Side (Host) Interface}
 On the hypervisor, we need to access the PCI device's MMIO data region to get the commands from the middlebox. We have written a program readSHM.c, which uses mmap() systemcall to memory map the ivshmem device's MMIO data region into its own virtual address space. Now, the process will have direct access to the shared region by means of pointer referencing. As the process reads a command from the shared memory, it makes a system call to pass that command to the kernel space. We have implemented a separate system call to parse the command and to update the middlebox state stored in some kernel data structure accordingly. We have implemented specialization of the hypervisor for Firewall and Load balancer middleboxes. Let's see what commands do middlebox passes and how the system call interprets them in our case.   
 \begin{table}[H]
 \centering
@@ -362,44 +466,133 @@ In the command to register a middlebox for load balancer services, type field ca
 
 For example, to register a middlebox having 52:34:56:00:12:22 as the MAC address and 10.129.26.115 as the IP address for firewall services, the command will be,
 \begin{center} 
-R F 52:34:56:00:12:22 10.129.126.115
+\textit{R F 52:34:56:00:12:22 10.129.126.115}
 \end{center} 
 To enable firewall services for the above registered middlebox, on source MAC address and MAC layer protocol for incoming packets, the command will be,
 \begin{center} 
-A 52:34:56:00:12:22 M 5 s 12:13:14:15:16:17 p 8
+\textit{A 52:34:56:00:12:22 M 5 s 12:13:14:15:16:17 p 8}
 \end{center} 
 To disable firewall services for the above registered middlebox, on the source MAC address for incoming packets, the command will be,
 \begin{center} 
-D 52:34:56:00:12:22 M 4 s
+\textit{D 52:34:56:00:12:22 M 4 s}
 \end{center} 
 
 To implement the host side interface, we need a program to continuously read from the POSIX shared memory. It is approximately 100 lines of C code. We need a system call to parse the command and transfer the data from user space to kernel data structures. It is approximately 450 lines of C code. On the guest side interface, we can use already available implementation of ivshmem device driver\cite{IV} as described earlier.       
-\subsection{Middlebox state stored at the hypervisor}
+\subsection{Middlebox State Stored At The Hypervisor}
 Middlebox state is required at the hypervisor to keep track of the services it has registered for. It is also required to store the information required to execute the offloaded middlebox functionality. For each type of service provided by the hypervisor, we keep an object for all the middleboxes which registered for that service. The object contains all the required fields needed by the hypervisor to provide a specific service. For example, firewall functionality structure contains source IP/MAC/Port address, destination IP/MAC/Port address, ipfilters, macfilters, tcpfilters, tos and protocol as members. The host interface reads a command from the middlebox from the shared memory and parses it as shown in above section. In addition to that, it also updates the object belongs to that middlebox accordingly as shown in fig-4.1. We have added two structures to the /include/linux/syscalls.h header file for the firewall functionality and the load balancer functionality respectively.    
-\subsection{Offloaded middlebox functionalities}
-We have implemented each offloaded middlebox functionality as a loadable kernel module. In order to make middleboxes use those hypervisor services, we just need to insert the module corresponding to that service. Once the module is inserted, middleboxes communicate with the hypervisor as shown in the previous section. A firewall performs various tasks such as some complex decision making task, filtering of the packets, generating alert for security breach etc. We offloaded a light weight filtering task of the firewall to the hypervisor. We have implemented a kernel module, 350 lines of C code for filtering task. A load balancer also performs several tasks such as decision making for intelligent load balancing among the servers, guarantees always availability of the application, add or remove servers to the pool etc. We offloaded simple forwarding functionality of the load balancer which is performed once all the decision making is done. We have implemented a kernel module for that too, around 200 lines of c code. Both these modules use the stored middlebox state to take appropriate action on the packets.
+\subsection{Offloaded Middlebox Functionalities}
+We have implemented each offloaded middlebox functionality as a loadable kernel module. In order to make middleboxes use those hypervisor services, we just need to insert the module corresponding to the service. Once the module is inserted, middleboxes communicate with the hypervisor as shown in the previous section. A firewall performs various tasks such as some complex decision making tasks, filtering of the packets, generating alert for security breach etc. We offloaded a light weight filtering task of the firewall to the hypervisor. We have implemented a kernel module, 350 lines of C code for filtering task. A load balancer also performs several tasks such as decision making for intelligent load balancing among the servers, guarantees always availability of the application, add or remove servers to the pool etc. We offloaded simple forwarding functionality of the load balancer which is performed once all the decision making is done. We have implemented a kernel module for that too, around 200 lines of c code. Both these modules use the stored middlebox state to take appropriate action on the packets.
 
 It was very important to find a hook in the hypervisor processing to fit these module processing. We insert this processing in the bridge forwarding part of the hypervisor at the point where the first interrupt is generated for the incoming packet, in br\_handle\_frame\_finish() function inside /net/bridge/br\_input.c file. As a packet passed to the hypervisor bridge module, br\_handle\_frame is the first function to be executed. It does initial processing like initial validity checks on the frame, separating ethernet control frames and data frames etc on the incoming frame. Then the frame is passed to br\_handle\_frame\_finish, where the actual forwarding process begins. So, our modules get executed before any kind of sorting or decision making performed by the hypervisor bridge module.                          
-\section{Different packet traversal paths analysis}
-In a network set up where middleboxes are virtualized as per the above design, a packet can be processed in three different ways. Any middlebox for which none of the functionality is offloaded to the hypervisor, packets are processed in normal way. It includes kernel processing on the hypervisor, IRQ processing, guest kernel processing and finally the middlebox application processing. Any middlebox for which some of the functionality is offloaded to the hypervisor, packets can be processed in two ways. First of all, every packet for such a middlebox is processed by the hypervisor module. Then only some of the packets will be forwarded to the middlebox for further processing according to the middlebox state stored on the hypervisor. Appropriate action will be taken on the other packets by the module itself, thus the middlebox is bypassed for those packets. The cost associated with the first kind of packet processing is kernel processing on the hypervisor, additional module processing, IRQ processing, guest kernel processing and middlebox application processing excluding the offloaded functionality processing. The cost associated with the other packets is kernel processing on the hypervisor, additional module processing and reduced IRQ processing. Clearly, offloading the middlebox functionality to the hypervisor is advantageous only if the average cpu utilization and the average packet processing time for the design with the hypervisor module is less compare to normal design without the module. It largely depends on the which middlebox functionality is offloaded to the hypervisor. It also depends on the division of the incoming traffic among three ways described here. It is very important to decide how much of the middlebox functionality should be offloaded to the hypervisor. It can be decided based on some intelligent assumptions or prior experience or may be on trial and error basis.
+\section{Different Packet Traversal Paths Analysis}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.7]{packetspath.pdf}
+\caption{Different packet traversal paths}
+\end{figure}
+In a network set up where middleboxes are virtualized as per the above design, a packet can be processed in three different ways as described in figure-4.2. Any middlebox for which none of the functionality is offloaded to the hypervisor, packets are processed in normal way. It includes kernel processing on the hypervisor, IRQ processing, guest kernel processing and finally the middlebox application processing. For example, path (c) for middlebox2 in the above figure. Any middlebox for which some of the functionality is offloaded to the hypervisor, packets can be processed in two ways. First of all, every packet for such a middlebox is processed by the hypervisor module. Then only some of the packets will be forwarded to the middlebox for further processing according to the middlebox state stored on the hypervisor. Appropriate action will be taken on the other packets by the module itself, thus the middlebox is bypassed for those packets. The cost associated with the first kind of packet processing is kernel processing on the hypervisor, additional module processing, IRQ processing, guest kernel processing and middlebox application processing excluding the offloaded functionality processing. For example, path (a) for middlebox1 in the above figure. The cost associated with the other packets is kernel processing on the hypervisor, additional module processing and reduced IRQ processing. For example, path (b) for middlebox1 in the above figure. Clearly, offloading the middlebox functionality to the hypervisor is advantageous only if the average CPU utilization and the average packet processing time for the design with the hypervisor module is less compare to normal design without the module. It largely depends on the which middlebox functionality is offloaded to the hypervisor. It also depends on the division of the incoming traffic among three ways described here. It is very important to decide how much of the middlebox functionality should be offloaded to the hypervisor. It can be decided based on some intelligent assumptions or prior experience or may be on trial and error basis.
 
-\bigskip
-In the next chapter, we will experiment on the middlebox virtualization design that we described here. We will focus on the several metrics like cpu utilization and packet processing time. We will also discuss challenges faced during the experimentation.   
+%\bigskip
+%In the next chapter, we will see experiments done on the middlebox virtualization design that we have described here. We will focus on the several metrics like cpu utilization and packet processing time. We will also discuss challenges faced during the experimentation.   
 
 
 
-\chapter{Experiments}
-\section{Experimentation setup}
-\section{Results}
-\subsection{Interrupts generated by packets}
-\subsection{Time required to process a packet}
-\subsection{Throughput of a client application}
+\chapter{Experimental Evaluation}
+In this section, we showcase performance of the virtualized set up having the hypervisor specialized for the middleboxes. Our analysis focus on the processing of the received packets on the hypervisor. We analyse the time taken to process a packet in such a set up and cost of offloading the middlebox functionality to the hypervisor in terms of CPU utilization. 
+
+\section{Experimentation Setup}
+Our experiment setup includes the virtual machines running on the 64 bit, x86 hardware connected to the other machines through a gigabit 8-port d-link switch. The server has four 3GHz Intel CPUs with 8GB of memory and Intel I217-V gigabit ethernet network interface card. During the experiment we assume that all the four CPUs are busy serving the middleboxes running on it. To generate network traffic, we used iperf\cite{IP} unidirectional UDP packet streams. TCP traffic generates ack packets in response to the data packets, so it would be difficult to observe the processor cost only on the receive path of the packets. All the experiments are done for the UDP traffic but we can expect the same results for the TCP traffic at I/O virtualization layer. KVM-4.1.6, QEMU-2.2.0 and libVirt API is used as the hypervisor for the experiments. Virtual machines have virtual NICs which follow the virtio standards and connect to the hypervisor virtual bridge as the tap interfaces. We use function\_graph tool of the function tracer\cite{FT} to measure the time taken to process each packet on the hypervisor as well as on the guest machine. We use htop\cite{HT} to measure the CPU utilization for processing the packets at gigabit line rate.  
+
+\section{Experiment Details} 
+In order to do the experiments, we run two 64-bit, 3GHz, 2GB virtual machines on the host machine. We assume that one of the virtual machine runs the firewall application. Thus it becomes the firewall middlebox. And the other virtual machine runs the load balancer application. Thus it becomes the load balancer middlebox. We offload filtering functionality of the firewall middlebox and matching and forwarding functionality of the load balancer middlebox to the hypervisor. We use Iperf UDP packets of the size 52 bytes and 1500 bytes as the workloads. Turn by turn, We send these loads to both of the middleboxes at gigabit line rate. We focus on the metrics like no. of interrupts generated due to incoming packets, average packet processing time and average CPU utilization. We observe these metrics for all possible packet processing flows discussed in the previous chapter. Let's analyse the results of the experiments in detail.                   	   	
+\section{Overall Cost Of Specialized I/O Virtualization}
+In the first part, we log number of times CPU gets interrupted in order to process a packet. In second part, we discuss total time required to process an incoming UDP packet until it is consumed by the middlebox application. The last part compares the processor utilization to process the stream of UDP packets with the specialized I/O and without it.  
+\subsection{Analysis Of Network Interrupts}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.99]{intr.eps}
+\caption{No. of interrupts generated for 875 incoming UDP packets of size 1500 bytes at 100Mbps line rate out of which 12 packets got dropped}
+\end{figure}
+When a packet arrives from the network, it generates a software interrupt. All the CPU cores are busy serving the middleboxes. One of the designated CPU core needs to serve the interrupt. It generates another interrupt for the CPU core serving the destination middlebox virtual machine for the packet. Then the first interrupted core gets back to work again until next packet arrives. In high speed networks, interrupt generating rate will also be high. Server processes the packets at much lower rate than line rate. In our network set up, physical network interface card is attached to a bridge port. Each bridge port will have rx\_handler which in turn calls br\_handle\_frame function of /net/bridge/br\_input.c as the entry point of the bridge processing in the hypervisor\cite{AL}. The network interface code \_\_netif\_receive\_skb calls the rx\_handler. So, that is the entry point of the packet processing and that is where the first interrupt is generated. In this experiments, we log the number of calls to the \_\_netif\_receive\_skb for a given UDP packets stream and thus we keep the count of number of interrupts generated. We do this on the hypervisor as well as on the guest. In normal virtualized set up, two interrupts will be generated per received packet as we just discussed. In our specialized virtualized set up, we bypass the middlebox processing for the packets which are processed by the offloaded middlebox module at the hypervisor. Thus each incoming packet which can be handled by the hypervisor module generates only single interrupt. The above graph shows no. of interrupts generated for 863 incoming UDP packets of size 1500 bytes at 100Mbps line rate. W\_O\_MOD stands for processing when the hypervisor module is disabled. W\_MOD\_Y stands for processing when the hypervisor module is enabled and the packet is forwarded to the middlebox as the module does not able to handle the packet. W\_MOD\_N stands for processing when the hypervisor module is enabled and module takes appropriate action on the packet. Figure-5.3 shows that number of interrupts generated for incoming packets are reduced by 50 percentage.        	    
+\subsection{Analysis Of Packet Processing Time}
+%\begin{figure}[h]
+%\centering
+%\begin{minipage}{0.45\textwidth}
+%\includegraphics[height=6.5cm,width=6.7cm]{ppt.eps}
+%\caption{Firewall Middlebox}
+%\end{minipage}
+%\hspace{0.6cm}
+%\begin{minipage}{0.45\textwidth}
+%\includegraphics[height=6.5cm,width=6.7cm]{pptlb.eps}
+%\caption{Load Balancer Middlebox}
+%\end{minipage}
+%\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.99]{ppt.eps}
+\caption{Firewall Middlebox}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.99]{pptlb.eps}
+\caption{Load Balancer Middlebox}
+\end{figure}
+ 
+We compare the average packet processing time with the offloaded hypervisor module and without it. Here, we define the packet processing time as time required for the execution of the two interrupt subroutines. Execution of the first interrupt subroutine includes offloaded middlebox functionality processing. The x-axis in the above graphs is UDP packet size. The graphs shows results for 1500 bytes and 52 bytes UDP packets. 1500 bytes packets depict a maximum size Ethernet packet and 52 bytes packets depict a TCP acknowledgement packet. The larger the packet size the larger the chunk size of data for delivery. Thus packet processing time will be more. We can see this in graphs shown above. Important thing to observe is, we have not included the actual middlebox application processing time in case of W\_O\_MOD and W\_MOD\_Y. It completely depends on the middlebox application. But in case of W\_MOD\_Y, it should definitely be less than W\_O\_MOD as in first case some part of the application is already processed at the hypervisor as shown in the graph. If the processing time in W\_MOD\_Y case is much greater than the processing time in W\_O\_MOD case then it suggest that we have not offloaded the functionality in the correct way. We can see that in W\_MOD\_N case, the packet processing time for the load balancer middlebox is more than the packet processing time for the firewall middlebox. It depends on the action taken on the packet once the module is executed and the time taken by the offloaded module. For firewall middlebox, the module drops the packet at the very beginning of the host processing according to the middlebox state stored. For load balancer middlebox, the module modifies the destination IP address of the packet and process it normally to forward it. Thus second action requires more time compare to the first one. For firewall or load balancer middlebox, for 1500 bytes packets, W\_O\_MOD packet processing time contains 208.33us of host processing and 163.46us for guest processing and for 52 bytes packets, 87.58us of host processing and 59.96usus for guest processing. For firewall, for 1500 bytes packets, W\_MOD\_N packet processing time contains 32.23us of host processing and for 52 bytes packets, 26.15us of host processing. This processing includes 1.8us time of the offloaded firewall functionality. For load balancer, for 1500 bytes packets, W\_MOD\_N packet processing time contains 65.40us of host processing and for 52 bytes packets, 50us of host processing. This processing includes 2us of the offloaded load balancer functionality. These results show that for firewall middlebox, W\_MOD\_N packet processing time is 91.33 percentage and 82.28 percentage lower than the W\_O\_MOD packet processing time for 1500 bytes and 52 bytes packets respectively. For load balancer middlebox, W\_MOD\_N packet processing time is 82.41 percentage and 66.11 percentage lower than the W\_O\_MOD packet processing time for 1500 bytes and 52 bytes packets respectively. Figure-5.2 and figure-5.3 represent these results. It suggest that filtering functionality for the firewall middlebox and the address matching and forwarding functionality of the load balancer middlebox is worthy to be offloaded at the hypervisor. 
+\subsection{Analysis Of CPU Utilization}
+%\begin{figure}[h]
+%\centering
+%\begin{minipage}{0.45\textwidth}
+%\includegraphics[height=6.5cm,width=6.7cm]{cu.eps}
+%\caption{Firewall Middlebox}
+%\end{minipage}
+%\hspace{0.6cm}
+%\begin{minipage}{0.45\textwidth}
+%\includegraphics[height=6.5cm,width=6.7cm]{culb.eps}
+%\caption{Load Balancer Middlebox}
+%\end{minipage}
+%\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.99]{cu.eps}
+\caption{Firewall Middlebox}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.99]{culb.eps}
+\caption{Load Balancer Middlebox}
+\end{figure}
+
+We compare the CPU utilization to process a stream of UDP packets with the hypervisor module and without it. Here, we can distribute the CPU utilization in three parts: user process utilization, kernel process utilization and interrupt request service utilization. This measurements are done at the hypervisor. so the user process utilization includes the guest kernel process utilization and the guest user process utilization. In fact, there was no other user process running during the experiments. Here, also x-axis for the graphs is UDP packet size. At 1Gbps line rate, in case of 52 bytes UDP packets, the CPU buffer becomes the bottleneck and it drops lots of packets. This is why we can clearly see the difference between CPU utilization for both the packet sizes in above graphs. These results show that for firewall middlebox, W\_MOD CPU utilization is 82.13 percentage and 88.49 percentage lower than the W\_O\_MOD CPU utilization for 1500 bytes and 52 bytes packets respectively. For load balancer middlebox, W\_MOD CPU utilization is 54.37 percentage and 50.68 percentage lower than the W\_O\_MOD packet processing time for 1500 bytes and 52 bytes packets respectively. Figure-5.4 and figure-5.5 represent these results. In W\_MOD case, we completely bypass the guest processing. It explains the drop of approximately 94 percentage of user process utilization between two categories. For firewall middlebox, the module drops the packets at the very beginning of the interrupt request processing. It explains drop of approximately 96 percentage of the IRQ utilization between two categories in the firewall graph. For load balancer middlebox the packet header gets modified as a part of offloaded load balancer functionality and it follows the normal bridge forwarding procedure. It explains approximately 5 percentage increase of the IRQ process utilization in the load balancer graph. Kernel process utilization also reduces for both the middleboxes but not as significantly as the user process utilization. The real impact of this improvement can be understood in case of the high speed network such as 10Gbps. Intel VMDq\cite{VMD} paper shows that at 10Gbps line rate, throughput achieved is only 4Gbps at maximum. In such a scenario, the amount of reduction in the CPU utilization shown in the above graphs can improve the throughput significantly.  
+
+Now let's address some of the challenges in the design and the implementation of this specialized I/O virtualization for the middleboxes.          
 \section{Challenges}
+\subsubsection{Which middlebox functionality to offload ?}
+The choice of the middlebox functionality which is being offloaded to the hypervisor is absolutely critical to the performance of the system. For any general or application specific middlebox, the choice made is correct or not that depends on the two metrics we just discussed: packet processing time and CPU utilization. If the system does not improve on these metrics then it indicates that the choice is not correct. We can use trial and error kind of approch here. Initial choice is made by intuitions, intelligent guesses or assumptions. Then we can fine tune the choice until it meets the expectation or discard it if it is not working out. For example, in our experiments we guessed that if the packets which are going to be filtered at the firewall middlebox, can be filtered at the hypervisor then it will improve the performance of the system and it did exactly the same.          
+\subsubsection{Centralised vs distributed communication interface}
+We can see in the previous chapter that each middlebox running on the server set up a POSIX shared memory with the hypervisor. Further communication between the hypervisor and the middlebox takes place through that shared memory. We have used this approach in our experiments. Generally in a data center, administrator will manage the middlebox functionalities. In this case only one shared memory segment is required between the administrator and the hypervisor. Administrator can communicate through that for any of the middlebox running on the hypervisor. First kind of implementation completely isolates all the middlebox communications to the hypervisors. Network administrator can choose any of the option based the network requirements.    
+%\subsubsection{event driven vs polling hypervisor interface}
+\subsubsection{Middlebox functionality must be tempered}
+It is very important to understand that here we are offloading the middlebox application which means that the offloaded functionality should not be performed again at the middlebox for the packets which travel to the middlebox. Otherwise performance of system might suffer for all those packets. This design need slight modification to the actual middlebox application to disable the offloaded functionality. In our experiments, we have the offloaded functionality module installed at the hypervisor but we are not running any middlebox application in the guests machines as it was not necessary to obtain the desired results. How complex it may get completely depends on what functionality is being offloaded. 
+\subsubsection{Performance of the system depends on network traffic}
+We have distributed the incoming packets in two categories when the hypervisor module for a middlebox is installed: W\_MOD\_Y and W\_MOD\_N. We have described them in detail in the previous section. If most part of the incoming packets belongs to the first category then this design does not produce any noticeable gain compare to the normal design. In fact, implementing the offloaded functionality module and communication interface between the middlebox and the hypervisor may become overhead in such a scenario. Thus, along side which middlebox functionality is being offloaded, what kind of network traffic a middlebox consumes also decide the performance of the newly implemented system.            
 
-\chapter{Conclusion and Future work}
+\chapter{Conclusion}
+We designed and implemented a specialized hypervisor on top of a traditional one for efficient middlebox virtualization. We have classified the middleboxes in several categoies. We compared several other techniques for middlebox virtualization on different performance metrics. For a firewall middlebox virtualization, we offloaded the filtering functionality to the hypervisor and the average packet processing time for the packet processed at the hypervisor reduces to 32 us from 370 us plus middlebox application processsing time. The average CPU utilization improves almost by 75 percentage. For the load balancer middlebox, we offloaded the address matching and forwarding part to the hypervisor and the average packet processing time for the packets processed at the hypervisor reduces to 65 us from 370 us plus middlebox application processsing time. The average CPU utilization improves by almost 50 percentage. These results also suggest that the throughput of the system has also been improved. Most of the previous techniques do not improve on these metrics at this scale except hardware assisted optimizations for virtualization. But they are costly and they have issues like scalability and portability. Our design is not that generic in approach as the hypervisor needs to get configured for each different kind of middlebox. We have provided a solution to do that and once it is done, we can see major improvement in the performance of the middlebox without any major issues.              
+\bigskip
 
+In addition to the work done so far, here we make few suggestions for the future steps, to fine tune the design that we suggested and to test it in the more robust manner.   
+\subsubsection{Future work}
+\begin{itemize}
+\item To thoroughly test the suggested design, it needs to be implemented for some application level middleboxes in a complete set up of the application network. Then the set up should be tested for all the scenarios that we have mentioned earlier.
+\item While implementing the interface between the middlebox and the hypervisor, we have used the polling mechanism. The interface continuously checks the shared memory to dynamically receive a new command from the middlebox. Instead, we can implement some event based mechanism such that when a new command is received from the middlebox, interface signals the hypervisor to read it from the shared memory.
+\item The experiments we have done are good enough to showcase the impact of the design. But in order to support these results more concretely the experiments should be performed for high speed networks such as 10Gbps network, in which servers often get saturated due to higher line rates.    
+\end{itemize} 
 \newpage
-\bibliographystyle {acm}
+
+\bibliographystyle {unsrt}
+\nocite{*}
 \bibliography {report}
 \end{document}
 

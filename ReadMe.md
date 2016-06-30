@@ -1,9 +1,32 @@
-#Filtering services by Hypervisor
-----------------------------------
+#Offloading Middlebox Services To Hypervisors For Efficient Network Function VIrtualization
 
-### Interface for Middleboxes:
+###Host Setup
+--------------
+1) Run ./bridge_setup.sh.
+2) Start a virtual machine,
+	qemu-system-x86_64 sandbox.img -m 2048 -enable-kvm -device ivshmem,shm=ivshmem,size=1 -net bridge,br=kvmbr0 -net nic,model=virtio
+3) Provide the filtering and the load balancer services at the hypervisor.
+	sudo insmod bfilter.ko
+	sudo insmod bloadbal.ko
+4) Periodically listen to the middleboxes,
+	gcc readSHM.c -lrt
+	sudo ./a.out
+
+###Guest Setup
+---------------
+1) Run ./StartMB.sh.
+2) Now register or quit hypervisor services using commands defined below,
+	sudo ./a.out -w "@....command.....@"
+	
+
+###Commands For Filtering / Load balancer services
+---------------------------------------------------
+
+#### Interface for Middleboxes:
 #### Acronyms used:
 R - register a middlebox <br/>
+F - Firewall Services <br/>
+L - Load balancer services <br/>
 A - Add services for registered MB<br/> 
 D - Delete services for registered MB<br/>
 X - Quit MB registration<br/>
@@ -34,15 +57,19 @@ value of I should be: [0,3]<br/>
 
 
 #### Explanation: command formats:<br/>
-R {MACaddress} {IPaddress} <br/>
+R F {MACaddress} {IPaddress} <br/>
+R L {MACaddress} {IPaddress} {balancetype} {srcip} {dstip}
 A {MACaddress} {[I/M/T] value} {s value} {d} {t value} {p value}<br/>
 D {MACaddress} {[I/M/T] value} {s} {d} {t} {p}<br/>
 X {MACaddress}<br/>
 
 
 #### Examples:
-R 12:13:14:15:16:17 10.129.126.15 <br/>
-It registers a middlebox having MAC address specified in the command.<br/>
+R L 12:13:14:15:16:17 10.129.126.15 0 10.129.126.17<br/>
+It registers a middlebox having MAC address specified in the command for load balancer services and redirects the traffic to the destination address specified. 
+<br/>
+R F 12:13:14:15:16:17 10.129.126.15 <br/>
+It registers a middlebox having MAC address specified in the command for firewall services.<br/>
 <br/>
 A 12:13:14:15:16:17 M 5 s 1:2:3:4:5:6 p 8<br/>
 It enables filtering on source MAc address and ethernet protocol fields of packets coming for the specified middlebox.<br/>
@@ -50,5 +77,7 @@ It enables filtering on source MAc address and ethernet protocol fields of packe
 D 12:13:14:15:16:17 M 4 s<br/>
 It removes source MAC address filter on the packets coming for the specified middlebox.<br/>
 <br/>
-X 12:13:14:15:16:17<br/>
+X 12:13:14:15:16:17 F<br/>
 It cancels registration of the specified middlebox.<br/>
+
+
